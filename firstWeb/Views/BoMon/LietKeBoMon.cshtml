@@ -1,0 +1,31 @@
+﻿@model IEnumerable<firstWeb.Models.BoMon>
+@{ ViewData["Tilte"] = "Liệt kê sinh viên trong bộ môn"; }
+<head>
+    <script>$(document).ready(function () {
+            $(".classBoMon").change(function () {
+                var maBomon = $(this).val();
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/SinhVien/LietKeSinhVienCuaBoMon_Ajax/' + maBomon,
+                    success: function (result) {
+                        $('.dssv').html(result);
+                    }
+                });
+            });
+        });</script>
+</head>
+@{
+    <h2>Danh sách bộ môn</h2>
+    <form action="/SinhVien/LietKeSinhVienCuaBoMon" method="get">
+        <label for="TenBoMon">Danh sách bộ môn</label>
+        <select name="MaBoMon" id="TenBoMon" class="classBoMon">
+            @foreach (var item in Model) 
+            { 
+              <option value="@item.MaBoMon">@item.TenBoMon</option>
+            }
+            </select><br>
+    </form>
+    <div class="dssv"></div> 
+}
+
