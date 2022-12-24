@@ -2,29 +2,110 @@
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using FrameworkProject.Models;
 
 namespace firstWeb.Models
 {
     public class StoreContext
     {
-        public string ConnectionString { get; set; }//biết thành viên 
+        public string ConnectionString { get; set; }
 
-        public StoreContext(string connectionString) //phuong thuc khoi tao
+        public StoreContext(string connectionString)
         {
             this.ConnectionString = connectionString;
         }
 
-        private MySqlConnection GetConnection() //lấy connection 
+        private MySqlConnection GetConnection() 
         {
             return new MySqlConnection(ConnectionString);
         }
+        // Liet ke tat ca product
+        public List<Products> GetProducts()
+        {
+            List<Products> list = new List<Products>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string str = "select * from Products where IsDeleted = 0";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new Products()
+                        {
+                            PROID = Int32.Parse(reader["ProID"].ToString()),
+                            NAME = reader["Name"].ToString(),
+                            DESCRIPTION = reader["Description"].ToString(),
+                            STAR = Int32.Parse(reader["Star"].ToString()),
+                            QUANTITY = Int32.Parse(reader["Quantity"].ToString()),
+                            CATEID = Int32.Parse(reader["CateId"].ToString()),
+                            CREATEDON = DateTime.Parse(reader["CreatedOn"].ToString()),
+                            UPDATEDON = DateTime.Parse(reader["UpdatedOn"].ToString()),
+                            STATUS = Int32.Parse(reader["Status"].ToString()),
+                            ISDELETED = Int32.Parse(reader["IsDeleted"].ToString()),
+                            PRICE = float.Parse(reader["Price"].ToString()),
+                        });
+                    }
+                    reader.Close();
+                }
 
-        //lấy danh sách các khoa
+                conn.Close();
+
+            }
+            return list;
+        }
+        
+        // Liet ke product yeu thich
+        public List<Products> GetFavoriteProducts(int userID)
+        {
+            List<Products> list = new List<Products>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string str = "select * from favoriteproduct f, products p where p.ProductID =" +
+                    " f.ProductID and f.UserID = @userid and p.IsDeleted = 0";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("userid", userID);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new Products()
+                        {
+                            PROID = Int32.Parse(reader["ProID"].ToString()),
+                            NAME = reader["Name"].ToString(),
+                            DESCRIPTION = reader["Description"].ToString(),
+                            STAR = Int32.Parse(reader["Star"].ToString()),
+                            QUANTITY = Int32.Parse(reader["Quantity"].ToString()),
+                            CATEID = Int32.Parse(reader["CateId"].ToString()),
+                            CREATEDON = DateTime.Parse(reader["CreatedOn"].ToString()),
+                            UPDATEDON = DateTime.Parse(reader["UpdatedOn"].ToString()),
+                            STATUS = Int32.Parse(reader["Status"].ToString()),
+                            ISDELETED = Int32.Parse(reader["IsDeleted"].ToString()),
+                            PRICE = float.Parse(reader["Price"].ToString()),
+                        });
+                    }
+                    reader.Close();
+                }
+
+                conn.Close();
+
+            }
+            return list;
+        }
+
+        
+
+
+
+
         public List<Khoa> GetKhoas()
         {
             List<Khoa> list = new List<Khoa>();
 
-            //MySqlConnection conn = new MySqlConnection("server=127.0.0.1;user id=root;password=;port=3306;database=qlsv;");
+            //MySqlConnection conn = new MySqlConnection("server=127.0.0.1;user id=root;password=;port=3306;database=quanlycasi1;");
             using (MySqlConnection conn = GetConnection())
             {
                 conn.Open();
@@ -48,7 +129,6 @@ namespace firstWeb.Models
             }
             return list;
         }
-
         public List<SinhVien> GetSinhViens()
         {
             List<SinhVien> list = new List<SinhVien>();
@@ -78,7 +158,6 @@ namespace firstWeb.Models
             }
             return list;
         }
-
         public List<SinhVien> GetSinhViens(string mbm)
         {
             List<SinhVien> list = new List<SinhVien>();
@@ -110,6 +189,115 @@ namespace firstWeb.Models
         }
 
         [HttpPost]
+        // Them product
+        public int InsertProduct(Products p)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "insert into products ('Name', 'Description', 'price', 'quantity', " +
+                    "'cateid') values(@productname, @description, @price, @quantity, @cateid)";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("productname", p.NAME);
+                cmd.Parameters.AddWithValue("description", p.DESCRIPTION);
+                cmd.Parameters.AddWithValue("price", p.PRICE);
+                cmd.Parameters.AddWithValue("quantity", p.QUANTITY);
+                cmd.Parameters.AddWithValue("cateid", p.CATEID);
+
+                return (cmd.ExecuteNonQuery());
+
+            }
+        }
+        // Sua product
+        public int UpdateProduct(Products p)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "UPDATE products SET Name = @name, Description = @description"
+                    +", Price = @price, Quantity = @quantity, Cateid = @cateid, Status =" +
+                    " @status, Isdeleted = @isdeleted WHERE ProductID = @productid";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("name", p.NAME);
+                cmd.Parameters.AddWithValue("description", p.DESCRIPTION);
+                cmd.Parameters.AddWithValue("price", p.PRICE);
+                cmd.Parameters.AddWithValue("quantity", p.QUANTITY);
+                cmd.Parameters.AddWithValue("cateid", p.CATEID);
+                cmd.Parameters.AddWithValue("status", p.STATUS);
+                cmd.Parameters.AddWithValue("isdeleted", p.ISDELETED);
+                cmd.Parameters.AddWithValue("productid", p.PROID);
+                return (cmd.ExecuteNonQuery());
+            }
+        }
+        // Them product yeu thich
+        public int InsertFavoriteProduct(Users u, Products p)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "INSERT INTO 	favoriteproduct	(UserID, ProductID) values (@userid, @productid)";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("userid", u.USERID);
+                cmd.Parameters.AddWithValue("productid", p.PROID);
+
+                return (cmd.ExecuteNonQuery());
+            }
+        }
+        // Xoa product yeu thich
+        public int DeleteFavoriteProduct(Users u, Products p)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "Delete from favoriteproduct where UserID = @userid, ProductID = @productid";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("userid", u.USERID);
+                cmd.Parameters.AddWithValue("productid", p.PROID);
+
+                return (cmd.ExecuteNonQuery());
+            }
+        }
+        // Them category
+        public int InsertCategory(Category c)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "insert into category ('CateName') values(@catename)";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("catename", c.CATENAME);
+
+                return (cmd.ExecuteNonQuery());
+
+            }
+        }
+        // Sua category
+        public int UpdateCategory(Category c)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "UPDATE category SET CateName = @catename WHERE CateId = @cateid";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("catename", c.CATENAME);
+                cmd.Parameters.AddWithValue("cateid", c.CATEID);
+                return (cmd.ExecuteNonQuery());
+            }
+        }
+        // Tao invoice
+        public Invoices CreateInvoice()
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "Insert into invoice (TotalPrice) values ('0')";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.ExecuteNonQuery();
+
+
+            }
+        }
+
         public int InsertKhoa(Khoa kh)
         {
             using (MySqlConnection conn = GetConnection())
@@ -137,7 +325,6 @@ namespace firstWeb.Models
                 return (cmd.ExecuteNonQuery());
             }
         }
-        
         public int XoaKhoa(string Id)
         {
             using (MySqlConnection conn = GetConnection())
@@ -193,7 +380,6 @@ namespace firstWeb.Models
             }
             return (kh);
         }
-
         public int TimSinhVienTheoTen(string ten)
         {
             int i = 0;
@@ -213,7 +399,6 @@ namespace firstWeb.Models
             }
             return i;
         }
-        //liệt kê n sinh viên
         public List<SinhVien> LietKeNSinhVien(int n) {
 
             List<SinhVien> list = new List<SinhVien>();
@@ -300,8 +485,6 @@ namespace firstWeb.Models
             }
             return list;
         }
-
-        //Số sinh viên trong bộ môn
         public List<object> SoSinhVienTrongBoMon()
         {
             List<object> list = new List<object>();
@@ -330,35 +513,6 @@ namespace firstWeb.Models
             return list;
 
         }
-        
-        /*
-        public IDictionary<string,int> SoSinhVienTrongBoMon()
-        {
-            Dictionary<string, int> dict = new Dictionary<string, int>();
-
-            using (MySqlConnection conn = GetConnection())
-            {
-                conn.Open();
-
-                string str = "select b.TenBoMon, count(*) as SL from BOMON b,SINHVIEN s where b .MaBoMon = s .MaBoMon group by s.MaBoMon";
-
-                MySqlCommand cmd = new MySqlCommand(str, conn);
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        dict.Add(reader["TenBoMon"].ToString(), Convert.ToInt32(reader["SL"]));
-
-                    }
-                    reader.Close();
-                }
-
-                conn.Close();
-
-            }
-            return dict;
-
-        }*/ 
         public StoreContext()
         {
         }

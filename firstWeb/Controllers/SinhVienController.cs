@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using firstWeb.Models;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace firstWeb.Controllers
 {
     public class SinhVienController : Controller
@@ -17,20 +15,6 @@ namespace firstWeb.Controllers
         {
             return View();
         }
-        /*
-        public string XemDiem() {
-            return "Đây là  trang web xem điểm sinh viên";
-        }*/
-
-        /* public string XemDiem(string name, double diem=9)
-         {
-             return HtmlEncoder.Default.Encode($"Ten {name} Diem trung binh {diem}");  
-         }*/
-        /*
-        public string XemDiem(string name, double diem=9, int ID=1)
-        {
-            return HtmlEncoder.Default.Encode($"ID {ID} Ten {name} Diem trung binh {diem}");  
-        }*/
         public IActionResult XemDiem(string name, double diem = 9)
         {
             ViewData["name"] = name;
@@ -59,22 +43,8 @@ namespace firstWeb.Controllers
             StoreContext context = HttpContext.RequestServices.GetService(typeof(firstWeb.Models.StoreContext)) as StoreContext;
 
             return View(context.GetSinhViens(MaBoMon));
-            //return Content("Hello " + MaBoMon, "text/plain");
         }
 
-
-
-
-
-        /* cách 2 */
-        /*
-        public IActionResult LietKeSinhVienCuaBoMon(string MaBoMon)
-        {
-            StoreContext context = HttpContext.RequestServices.GetService(typeof(firstWeb.Models.StoreContext)) as StoreContext;
-
-            return View(context.GetSinhViens(MaBoMon));
-        }
-        */
         public IActionResult XoaSinhVien(SinhVien sv)
         {
             StoreContext context = HttpContext.RequestServices.GetService(typeof(firstWeb.Models.StoreContext)) as StoreContext;
@@ -116,7 +86,6 @@ namespace firstWeb.Controllers
 
         public IActionResult LietKeSinhVienMax() {
             StoreContext context = HttpContext.RequestServices.GetService(typeof(firstWeb.Models.StoreContext)) as StoreContext;
-
             return View(context.SinhVienMax());
         }
         

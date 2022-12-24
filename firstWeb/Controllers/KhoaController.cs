@@ -52,7 +52,7 @@ namespace firstWeb.Controllers
             int count;
 
             //StoreContext context = HttpContext.RequestServices.GetService(typeof(firstWeb.Models.StoreContext)) as StoreContext;
-            StoreContext context = new StoreContext("server=127.0.0.1;user id=root;password=;port=3306;database=qlsv;");
+            StoreContext context = new StoreContext("server=127.0.0.1;user id=root;password=;port=3306;database=quanlycasi1;");
             count = context.InsertKhoa(kh);
 
             if (count > 0)
@@ -94,13 +94,13 @@ namespace firstWeb.Controllers
 
             StoreContext context = HttpContext.RequestServices.GetService(typeof(firstWeb.Models.StoreContext)) as StoreContext;
 
-            //StoreContext context = new StoreContext("server=127.0.0.1;user id=root;password=;port=3306;database=qlsv;");
+            //StoreContext context = new StoreContext("server=127.0.0.1;user id=root;password=;port=3306;database=quanlycasi1;");
 
             return View(context.GetKhoas());
         }
 
         public IActionResult DeleteKhoa(string Id) {
-           // ViewData["id"] = Id;
+            //
             StoreContext context = HttpContext.RequestServices.GetService(typeof(firstWeb.Models.StoreContext)) as StoreContext;
             int count = context.XoaKhoa(Id);
             /*if (count > 0)
