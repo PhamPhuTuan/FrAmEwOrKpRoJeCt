@@ -17,7 +17,7 @@ namespace FrameworkProject.Controllers
             return View();
         }
 
-        public IActionResult LietKeProduct()
+        public IActionResult Plants()
         {
             StoreContext context = HttpContext.RequestServices.GetService(typeof(firstWeb.Models.StoreContext)) as StoreContext;
 
