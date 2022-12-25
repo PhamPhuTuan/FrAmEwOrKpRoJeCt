@@ -21,7 +21,7 @@ namespace firstWeb.Controllers
             ViewData["diem"] = diem;
             return View();
         }
-        public IActionResult LietKeSinhVien()
+        /*public IActionResult LietKeSinhVien()
         {
             StoreContext context = HttpContext.RequestServices.GetService(typeof(firstWeb.Models.StoreContext)) as StoreContext;
 
@@ -55,13 +55,13 @@ namespace firstWeb.Controllers
             else
                 ViewData["thongbao"] = "Xóa không thành công";
             return View();
-        }
+        }*/
         public IActionResult TimSinhVien()
         {
             return View();
 
         }
-        public IActionResult TimSinhVienTheoTen(SinhVien sv)
+        /*public IActionResult TimSinhVienTheoTen(SinhVien sv)
         {
             StoreContext context = HttpContext.RequestServices.GetService(typeof(firstWeb.Models.StoreContext)) as StoreContext;
             int count = context.TimSinhVienTheoTen(sv.TenSinhVien);
@@ -87,7 +87,7 @@ namespace firstWeb.Controllers
         public IActionResult LietKeSinhVienMax() {
             StoreContext context = HttpContext.RequestServices.GetService(typeof(firstWeb.Models.StoreContext)) as StoreContext;
             return View(context.SinhVienMax());
-        }
+        }*/
         
     }
 }

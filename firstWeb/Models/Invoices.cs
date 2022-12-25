@@ -9,11 +9,17 @@ namespace FrameworkProject.Models
         private DateTime CreatedOn;
         private DateTime PaidOn;
         private float TotalPrice;
+        private int UserID;
 
         public int PACKID
         {
             get { return PackID; }
             set { PackID = value; }
+        }
+        public int USERID
+        {
+            get { return UserID; }
+            set { UserID = value; }
         }
         public int ISPAID
         {
@@ -36,13 +42,14 @@ namespace FrameworkProject.Models
             set { TotalPrice = value; }
         }
 
-        public Invoices(int packID, int isPaid, DateTime createdOn, DateTime paidOn, float totalPrice)
+        public Invoices(int packID, int isPaid, DateTime createdOn, DateTime paidOn, float totalPrice, int userid)
         {
             PackID = packID;
             IsPaid = isPaid;
             CreatedOn = createdOn;
             PaidOn = paidOn;
             TotalPrice = totalPrice;
+            UserID = userid;
         }
 
         public Invoices()
@@ -57,12 +64,13 @@ namespace FrameworkProject.Models
                    IsPaid == invoices.IsPaid &&
                    CreatedOn == invoices.CreatedOn &&
                    PaidOn == invoices.PaidOn &&
-                   TotalPrice == invoices.TotalPrice;
+                   TotalPrice == invoices.TotalPrice &&
+                   UserID == invoices.UserID;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(PackID, IsPaid, CreatedOn, PaidOn, TotalPrice, TOTALPRICE);
+            return HashCode.Combine(PackID, IsPaid, CreatedOn, PaidOn, TotalPrice, UserID);
         }
     }
 }
