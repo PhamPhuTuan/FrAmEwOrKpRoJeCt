@@ -28,11 +28,11 @@ namespace firstWeb.Controllers
         */
         // cách dùng ViewBag 
      
-        public IActionResult Index()
-        {
-            ViewBag.Khoa = new Khoa("MK10","Hệ thống Thông tin");
-            return View();
-        }
+        //public IActionResult Index()
+        //{
+        //    ViewBag.Khoa = new Khoa("MK10","Hệ thống Thông tin");
+        //    return View();
+        //}
         
         /* trả về 1 chuoi cho View Index, View Index không cần lấy giá trị trả về
         public IActionResult Index()
@@ -47,7 +47,7 @@ namespace firstWeb.Controllers
             return View();     
         }
         
-        public IActionResult InsertKhoa(Khoa kh)
+        /*public IActionResult InsertKhoa(Khoa kh)
         {
             int count;
 
@@ -60,7 +60,7 @@ namespace firstWeb.Controllers
             else
                 ViewData["thongbao"] = "Insert không thành công";
             return View();
-        }
+        }*/
 
         /*
         public IActionResult InsertKhoa(Khoa kh)
@@ -78,7 +78,7 @@ namespace firstWeb.Controllers
         }
         */
      
-        public IActionResult UpdateKhoa(Khoa kh) {
+        /*public IActionResult UpdateKhoa(Khoa kh) {
             int count;
             StoreContext context = HttpContext.RequestServices.GetService(typeof(firstWeb.Models.StoreContext)) as StoreContext;
             count = context.UpdateKhoa(kh);
@@ -87,9 +87,9 @@ namespace firstWeb.Controllers
             else
                 ViewData["thongbao"] = "Update không thành công";
             return View();
-        }
+        }*/
 
-        public IActionResult LietKeKhoa()
+        /*public IActionResult LietKeKhoa()
         {
 
             StoreContext context = HttpContext.RequestServices.GetService(typeof(firstWeb.Models.StoreContext)) as StoreContext;
@@ -103,11 +103,11 @@ namespace firstWeb.Controllers
             //
             StoreContext context = HttpContext.RequestServices.GetService(typeof(firstWeb.Models.StoreContext)) as StoreContext;
             int count = context.XoaKhoa(Id);
-            /*if (count > 0)
+            *//*if (count > 0)
                 ViewData["thongbao"] = "Xóa thành công";
             else
                 ViewData["thongbao"] = "Xóa không thành công";
-            return View();*/
+            return View();*//*
             return RedirectToAction("LietKeKhoa", "Khoa");
         }
         public IActionResult ViewKhoa(string Id)
@@ -116,7 +116,7 @@ namespace firstWeb.Controllers
             Khoa kh = context.ViewKhoa(Id);
             ViewData.Model = kh;
             return View();
-        }
+        }*/
        
 
        

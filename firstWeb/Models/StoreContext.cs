@@ -55,7 +55,6 @@ namespace firstWeb.Models
             }
             return list;
         }
-        
         // Liet ke product yeu thich
         public List<Products> GetFavoriteProducts(int userID)
         {
@@ -95,30 +94,33 @@ namespace firstWeb.Models
             }
             return list;
         }
-
-        
-
-
-
-
-        public List<Khoa> GetKhoas()
+        // Tim product 
+        public List<Products> FindProducts(string name)
         {
-            List<Khoa> list = new List<Khoa>();
-
-            //MySqlConnection conn = new MySqlConnection("server=127.0.0.1;user id=root;password=;port=3306;database=quanlycasi1;");
+            List<Products> list = new List<Products>();
             using (MySqlConnection conn = GetConnection())
             {
                 conn.Open();
-                string str = "select * from KHOA";
+                string str = "select * from Products where IsDeleted = 0 and Name Like %@name%";
                 MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("name", name);
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        list.Add(new Khoa()
+                        list.Add(new Products()
                         {
-                            MaKhoa = reader["MaKhoa"].ToString(),
-                            TenKhoa = reader["TenKhoa"].ToString(),
+                            PROID = Int32.Parse(reader["ProID"].ToString()),
+                            NAME = reader["Name"].ToString(),
+                            DESCRIPTION = reader["Description"].ToString(),
+                            STAR = Int32.Parse(reader["Star"].ToString()),
+                            QUANTITY = Int32.Parse(reader["Quantity"].ToString()),
+                            CATEID = Int32.Parse(reader["CateId"].ToString()),
+                            CREATEDON = DateTime.Parse(reader["CreatedOn"].ToString()),
+                            UPDATEDON = DateTime.Parse(reader["UpdatedOn"].ToString()),
+                            STATUS = Int32.Parse(reader["Status"].ToString()),
+                            ISDELETED = Int32.Parse(reader["IsDeleted"].ToString()),
+                            PRICE = float.Parse(reader["Price"].ToString()),
                         });
                     }
                     reader.Close();
@@ -129,25 +131,33 @@ namespace firstWeb.Models
             }
             return list;
         }
-        public List<SinhVien> GetSinhViens()
+        // Product theo cate
+        public List<Products> SelectProducts(int cate)
         {
-            List<SinhVien> list = new List<SinhVien>();
-
+            List<Products> list = new List<Products>();
             using (MySqlConnection conn = GetConnection())
             {
                 conn.Open();
-                string str = "select * from SINHVIEN";
+                string str = "select * from Products where IsDeleted = 0 and CateId Like %@cate%";
                 MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("cate", cate);
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        list.Add(new SinhVien()
+                        list.Add(new Products()
                         {
-                            MaSinhVien = reader["MaSinhVien"].ToString(),
-                            TenSinhVien = reader["TenSinhVien"].ToString(),
-                            DiemTrungBinh = Convert.ToInt32(reader["DiemTrungBinh"]),
-                            MaBoMon = reader["MaBoMon"].ToString(),
+                            PROID = Int32.Parse(reader["ProID"].ToString()),
+                            NAME = reader["Name"].ToString(),
+                            DESCRIPTION = reader["Description"].ToString(),
+                            STAR = Int32.Parse(reader["Star"].ToString()),
+                            QUANTITY = Int32.Parse(reader["Quantity"].ToString()),
+                            CATEID = Int32.Parse(reader["CateId"].ToString()),
+                            CREATEDON = DateTime.Parse(reader["CreatedOn"].ToString()),
+                            UPDATEDON = DateTime.Parse(reader["UpdatedOn"].ToString()),
+                            STATUS = Int32.Parse(reader["Status"].ToString()),
+                            ISDELETED = Int32.Parse(reader["IsDeleted"].ToString()),
+                            PRICE = float.Parse(reader["Price"].ToString()),
                         });
                     }
                     reader.Close();
@@ -158,26 +168,135 @@ namespace firstWeb.Models
             }
             return list;
         }
-        public List<SinhVien> GetSinhViens(string mbm)
+        // Invoice Detail
+        public List<Products> SelectInvoiceDetail(Invoices i)
         {
-            List<SinhVien> list = new List<SinhVien>();
-
+            List<Products> list = new List<Products>();
             using (MySqlConnection conn = GetConnection())
             {
                 conn.Open();
-                string str = "select * from SINHVIEN where MaBoMon=@mbm";
+                string str = "select * from products p, invoicedetail i WHERE p.ProductID = i.ProId and i.PackID = @packid";
                 MySqlCommand cmd = new MySqlCommand(str, conn);
-                cmd.Parameters.AddWithValue("mbm", mbm);
+                cmd.Parameters.AddWithValue("packid", i.PACKID);
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        list.Add(new SinhVien()
+                        list.Add(new Products()
                         {
-                            MaSinhVien = reader["MaSinhVien"].ToString(),
-                            TenSinhVien = reader["TenSinhVien"].ToString(),
-                            DiemTrungBinh = Convert.ToDouble(reader["DiemTrungBinh"]),
-                        }); 
+                            PROID = Int32.Parse(reader["ProID"].ToString()),
+                            NAME = reader["Name"].ToString(),
+                            DESCRIPTION = reader["Description"].ToString(),
+                            STAR = Int32.Parse(reader["Star"].ToString()),
+                            QUANTITY = Int32.Parse(reader["Qty"].ToString()),
+                            CATEID = Int32.Parse(reader["CateId"].ToString()),
+                            CREATEDON = DateTime.Parse(reader["CreatedOn"].ToString()),
+                            UPDATEDON = DateTime.Parse(reader["UpdatedOn"].ToString()),
+                            STATUS = Int32.Parse(reader["Status"].ToString()),
+                            ISDELETED = Int32.Parse(reader["IsDeleted"].ToString()),
+                            PRICE = float.Parse(reader["Price"].ToString()),
+                        });
+                    }
+                    reader.Close();
+                }
+
+                conn.Close();
+
+            }
+            return list;
+        }
+        // All Review
+        public List<Review> SelectReview()
+        {
+            List<Review> list = new List<Review>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string str = "select * from review";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new Review()
+                        {
+                            REVIEWER = Int32.Parse(reader["Reviewer"].ToString()),
+                            CONTENT = reader["Content"].ToString()
+                        });
+                    }
+                    reader.Close();
+                }
+
+                conn.Close();
+
+            }
+            return list;
+        }
+        // ALL Product
+        public List<Products> AllProducts()
+        {
+            List<Products> list = new List<Products>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string str = "select * from Products";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new Products()
+                        {
+                            PROID = Int32.Parse(reader["ProID"].ToString()),
+                            NAME = reader["Name"].ToString(),
+                            DESCRIPTION = reader["Description"].ToString(),
+                            STAR = Int32.Parse(reader["Star"].ToString()),
+                            QUANTITY = Int32.Parse(reader["Quantity"].ToString()),
+                            CATEID = Int32.Parse(reader["CateId"].ToString()),
+                            CREATEDON = DateTime.Parse(reader["CreatedOn"].ToString()),
+                            UPDATEDON = DateTime.Parse(reader["UpdatedOn"].ToString()),
+                            STATUS = Int32.Parse(reader["Status"].ToString()),
+                            ISDELETED = Int32.Parse(reader["IsDeleted"].ToString()),
+                            PRICE = float.Parse(reader["Price"].ToString()),
+                        });
+                    }
+                    reader.Close();
+                }
+
+                conn.Close();
+
+            }
+            return list;
+        }
+        // ALL User
+        public List<Users> AllUser()
+        {
+            List<Users> list = new List<Users>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string str = "select * from Users";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new Users()
+                        {
+                            USERID = Int32.Parse(reader["UserID"].ToString()),
+                            USERNAME = reader["Username"].ToString(),
+                            PASSWORD = reader["Password"].ToString(),
+                            ADDRESS = reader["Address"].ToString(),
+                            EMAIL = reader["Email"].ToString(),
+                            PHONE = reader["Phone"].ToString(),
+                            FIRSTNAME = reader["Firstname"].ToString(),
+                            LASTNAME = reader["Lastname"].ToString(),
+                            DATEOFBIRTH = DateTime.Parse(reader["DateOfBirth"].ToString()),
+                            REGISTRATIONDATE = DateTime.Parse(reader["Registrationdate"].ToString()),
+                            UPDATEDON = DateTime.Parse(reader["UpdatedOn"].ToString()),
+                            ISDELETED = Int32.Parse(reader["IsDeleted"].ToString()),
+                            ROLEID = Int32.Parse(reader["IsAdmin"].ToString())
+                        });
                     }
                     reader.Close();
                 }
@@ -189,6 +308,7 @@ namespace firstWeb.Models
         }
 
         [HttpPost]
+        /////// PRODUCT
         // Them product
         public int InsertProduct(Products p)
         {
@@ -257,6 +377,95 @@ namespace firstWeb.Models
                 return (cmd.ExecuteNonQuery());
             }
         }
+
+        /////// User
+        // Dang ky
+        public Users InsertUser(Users u)
+        {
+            Users u1 = new Users();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "insert into products ('Username', 'Password', 'Address', 'Email', " +
+                    "'Phone', 'Firstname', 'Lastname') values(@username, @password, @address," +
+                    " @email, @phone, @first, @last)";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("username", u.USERNAME);
+                cmd.Parameters.AddWithValue("password", u.PASSWORD);
+                cmd.Parameters.AddWithValue("address", u.ADDRESS);
+                cmd.Parameters.AddWithValue("email", u.EMAIL);
+                cmd.Parameters.AddWithValue("phone", u.PHONE);
+                cmd.Parameters.AddWithValue("first", u.FIRSTNAME);
+                cmd.Parameters.AddWithValue("last", u.LASTNAME);
+                cmd.ExecuteNonQuery();
+
+                string str1 = "select * from Users where Username = @username";
+                MySqlCommand cmd1 = new MySqlCommand(str1, conn);
+                cmd1.Parameters.AddWithValue("username", u.USERNAME);
+                using (var reader = cmd1.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        u1 = new Users(
+                            Int32.Parse(reader["UserID"].ToString()),
+                            reader["Username"].ToString(),
+                            reader["Password"].ToString(),
+                            reader["Address"].ToString(),
+                            reader["Email"].ToString(),
+                            reader["Phone"].ToString(),
+                            reader["Firstname"].ToString(),
+                            reader["Lastname"].ToString(),
+                            DateTime.Parse(reader["DateOfBirth"].ToString()),
+                            DateTime.Parse(reader["Registrationdate"].ToString()),
+                            DateTime.Parse(reader["UpdatedOn"].ToString()),
+                            Int32.Parse(reader["IsAdmin"].ToString()), 
+                            Int32.Parse(reader["IsDeleted"].ToString()), 0
+                        );
+                    }
+                    reader.Close();
+                }
+            }
+            return u1;
+        }
+        // Dang nhap
+        public Users LogIn(Users u)
+        {
+            Users u1 = new Users();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+
+                string str = "select * from Users where Username = @username and Password = @pass";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("username", u.USERNAME);
+                cmd.Parameters.AddWithValue("pass", u.PASSWORD);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        u1 = new Users(
+                            Int32.Parse(reader["UserID"].ToString()),
+                            reader["Username"].ToString(),
+                            reader["Password"].ToString(),
+                            reader["Address"].ToString(),
+                            reader["Email"].ToString(),
+                            reader["Phone"].ToString(),
+                            reader["Firstname"].ToString(),
+                            reader["Lastname"].ToString(),
+                            DateTime.Parse(reader["DateOfBirth"].ToString()),
+                            DateTime.Parse(reader["Registrationdate"].ToString()),
+                            DateTime.Parse(reader["UpdatedOn"].ToString()),
+                            Int32.Parse(reader["IsAdmin"].ToString()),
+                            Int32.Parse(reader["IsDeleted"].ToString()), 0
+                        );
+                    }
+                    reader.Close();
+                }
+            }
+            return u1;
+        }
+
+        ////// CATEGORY
         // Them category
         public int InsertCategory(Category c)
         {
@@ -284,234 +493,93 @@ namespace firstWeb.Models
                 return (cmd.ExecuteNonQuery());
             }
         }
+
+        ///// INVOICE
         // Tao invoice
-        public Invoices CreateInvoice()
+        public Invoices createinvoice(Users u)
         {
+            Invoices i = new Invoices();
             using (MySqlConnection conn = GetConnection())
             {
                 conn.Open();
-                var str = "Insert into invoice (TotalPrice) values ('0')";
+                var str = "insert into invoice (UserID) values (@userid)";
                 MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("userid", u.USERID);
                 cmd.ExecuteNonQuery();
 
-
-            }
-        }
-
-        public int InsertKhoa(Khoa kh)
-        {
-            using (MySqlConnection conn = GetConnection())
-            {
-                conn.Open();
-                var str = "insert into KHOA values(@makhoa, @tenkhoa)";
-                MySqlCommand cmd = new MySqlCommand(str, conn);
-                cmd.Parameters.AddWithValue("makhoa", kh.MaKhoa);
-                cmd.Parameters.AddWithValue("tenkhoa", kh.TenKhoa);
-
-                return (cmd.ExecuteNonQuery());
-
-            }
-        }
-        public int UpdateKhoa(Khoa kh)
-        {
-            using (MySqlConnection conn = GetConnection())
-            {
-                conn.Open();
-                var str = "update KHOA set TenKhoa = @tenkhoa " +
-                    "where MaKhoa=@makhoa";
-                MySqlCommand cmd = new MySqlCommand(str, conn);
-                cmd.Parameters.AddWithValue("tenkhoa", kh.TenKhoa);
-                cmd.Parameters.AddWithValue("makhoa", kh.MaKhoa);
-                return (cmd.ExecuteNonQuery());
-            }
-        }
-        public int XoaKhoa(string Id)
-        {
-            using (MySqlConnection conn = GetConnection())
-            {
-                conn.Open();
-                var str = "delete from KHOA where MaKhoa=@makhoa";
-                MySqlCommand cmd = new MySqlCommand(str, conn);
-                cmd.Parameters.AddWithValue("makhoa", Id);
-                return (cmd.ExecuteNonQuery());
-            }
-        }
-        public int XoaSinhVien(string Id)
-        {
-            using (MySqlConnection conn = GetConnection())
-            {
-                conn.Open();
-                var str = "delete from SINHVIEN where MaSinhVien=@maSinhVien";
-                MySqlCommand cmd = new MySqlCommand(str, conn);
-                cmd.Parameters.AddWithValue("maSinhVien", Id);
-                return (cmd.ExecuteNonQuery());
-            }
-        }
-        public int InsertBoMon(BoMon bm)
-        {
-            using (MySqlConnection conn = GetConnection())
-            {
-                conn.Open();
-                var str = "insert into BOMON values(@mabomon, @tenbomon,@makhoa)";
-                MySqlCommand cmd = new MySqlCommand(str, conn);
-                cmd.Parameters.AddWithValue("mabomon", bm.MaBoMon);
-                cmd.Parameters.AddWithValue("tenbomon", bm.TenBoMon);
-                cmd.Parameters.AddWithValue("makhoa", bm.MaKhoa);
-                return (cmd.ExecuteNonQuery());
-
-            }
-        }
-        public Khoa ViewKhoa(string Id)
-        {
-            //Khoa kh = new Khoa("MK01","HTTT");
-            Khoa kh = new Khoa();
-            using (MySqlConnection conn = GetConnection())
-            {
-                conn.Open();
-                var str = "select * from KHOA where MaKhoa=@makhoa";
-                MySqlCommand cmd = new MySqlCommand(str, conn);
-                cmd.Parameters.AddWithValue("makhoa", Id);
-                using (var reader = cmd.ExecuteReader())
-                {
-                    reader.Read();
-                    kh.MaKhoa=reader["MaKhoa"].ToString();
-                    kh.TenKhoa = reader["TenKhoa"].ToString();
-                }
-            }
-            return (kh);
-        }
-        public int TimSinhVienTheoTen(string ten)
-        {
-            int i = 0;
-            using (MySqlConnection conn = GetConnection())
-            {
-                conn.Open();
-                var str = "select * from SINHVIEN where TenSinhVien=@tensinhvien";
-                MySqlCommand cmd = new MySqlCommand(str, conn);
-                cmd.Parameters.AddWithValue("tensinhvien", ten);
-                using (var reader = cmd.ExecuteReader())
+                var str1 = "SELECT * from invoice order by PackID DESC limit 1";
+                MySqlCommand cmd1 = new MySqlCommand(str1, conn);
+                using (var reader = cmd1.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        i++;
+                        i = new Invoices(
+                            Int32.Parse(reader["PackID"].ToString()),
+                            Int32.Parse(reader["IsPaid"].ToString()),
+                            DateTime.Parse(reader["CreatedOn"].ToString()),
+                            DateTime.Parse(reader["PaidOn"].ToString()),
+                            float.Parse(reader["TotalPrice"].ToString()),
+                            Int32.Parse(reader["UserID"].ToString())
+                        );
                     }
+                    reader.Close();
                 }
             }
             return i;
         }
-        public List<SinhVien> LietKeNSinhVien(int n) {
-
-            List<SinhVien> list = new List<SinhVien>();
-
-            using (MySqlConnection conn = GetConnection())
-            {
-                conn.Open();
-                string str = "select * from SINHVIEN limit @sosinhvien";
-                MySqlCommand cmd = new MySqlCommand(str, conn);
-                cmd.Parameters.AddWithValue("sosinhvien", n); 
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        list.Add(new SinhVien()
-                        {
-                            MaSinhVien = reader["MaSinhVien"].ToString(),
-                            TenSinhVien = reader["TenSinhVien"].ToString(),
-                            DiemTrungBinh = Convert.ToDouble(reader["DiemTrungBinh"]),
-                            MaBoMon = reader["MaBoMon"].ToString(),
-                        });
-                    }
-                    reader.Close();
-                }
-
-                conn.Close();
-
-            }
-            return list;
-        }
-        public List<SinhVien> SinhVienMax(){
-            List<SinhVien> list = new List<SinhVien>();
-
-            using (MySqlConnection conn = GetConnection())
-            {
-                conn.Open();
-                string str = "select * from SINHVIEN where DiemTrungBinh = (Select Max(DiemTrungBinh) from SINHVIEN)";
-                MySqlCommand cmd = new MySqlCommand(str, conn);
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        list.Add(new SinhVien()
-                        {
-                            MaSinhVien = reader["MaSinhVien"].ToString(),
-                            TenSinhVien = reader["TenSinhVien"].ToString(),
-                            DiemTrungBinh = Convert.ToDouble(reader["DiemTrungBinh"]),
-                            //MaBoMon = reader["MaBoMon"].ToString(),
-                        });
-                    }
-                    reader.Close();
-                }
-
-                conn.Close();
-
-            }
-            return list;
-        }
-        public List<BoMon> GetBoMons()
+        // Them san pham vao invoice
+        public int InsertProductintoInvoice(Products p, Invoices i, int quantity)
         {
-            List<BoMon> list = new List<BoMon>();
-
             using (MySqlConnection conn = GetConnection())
             {
                 conn.Open();
-                string str = "select * from BOMON";
+                var str = "insert into invoicedetail (ProId, PackID, Qty) values (@proid, @packid, @quantity)";
                 MySqlCommand cmd = new MySqlCommand(str, conn);
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        list.Add(new BoMon()
-                        {
-                            MaBoMon = reader["MaBoMon"].ToString(),
-                            TenBoMon = reader["TenBoMon"].ToString(),
-                            
-                        });
-                    }
-                    reader.Close();
-                }
-
-                conn.Close();
-
+                cmd.Parameters.AddWithValue("proid", p.PROID);
+                cmd.Parameters.AddWithValue("packid", i.PACKID);
+                cmd.Parameters.AddWithValue("quantity", quantity);
+                return cmd.ExecuteNonQuery();
             }
-            return list;
         }
-        public List<object> SoSinhVienTrongBoMon()
+        //Sua san pham trong invoice
+        public int UpdateProductInInvoice (InvoiceDetail i)
         {
-            List<object> list = new List<object>();
-
             using (MySqlConnection conn = GetConnection())
             {
                 conn.Open();
-
-                string str = "select b.TenBoMon, count(*) as SL from BOMON b,SINHVIEN s where b .MaBoMon = s .MaBoMon group by s.MaBoMon";
-
+                var str = "UPDATE invoicedetail SET Qty = @quantity WHERE ProId = @proid and PackID = @packid";
                 MySqlCommand cmd = new MySqlCommand(str, conn);
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        var ob = new {tenbomon= reader["TenBoMon"].ToString(), soluong= Convert.ToInt32(reader["SL"]) };
-                        list.Add(ob); 
-                   
-                    }
-                    reader.Close();
-                }
-
-                conn.Close();
-
+                cmd.Parameters.AddWithValue("proid", i.PROID);
+                cmd.Parameters.AddWithValue("quantity", i.QUANTITY);
+                cmd.Parameters.AddWithValue("packid", i.PACKID);
+                return cmd.ExecuteNonQuery();
             }
-            return list;
+        }
+        // Xoa san pham trong invoice
+        public int DeleteProductInInvoice (InvoiceDetail i)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "Delete from invoicedetail where ProId = @proid and PackID = @packid";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("proid", i.PROID);
+                cmd.Parameters.AddWithValue("packid", i.PACKID);
+                return cmd.ExecuteNonQuery();
+            }
+        }
 
+        public int AddReview (Review r)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "Insert into review (	Reviewer , Content) values (@reviewer, @content)";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("reviewer", r.REVIEWER);
+                cmd.Parameters.AddWithValue("content", r.CONTENT);
+                return cmd.ExecuteNonQuery();
+            }
         }
         public StoreContext()
         {

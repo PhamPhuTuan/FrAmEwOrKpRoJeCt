@@ -16,16 +16,16 @@ namespace firstWeb.Controllers
         {
             return View();
         }
-        public IActionResult EnterBoMon()
+        /*public IActionResult EnterBoMon()
         {
-            StoreContext context = HttpContext.RequestServices.GetService(typeof(firstWeb.Models.StoreContext)) as StoreContext;
-            return View(context.GetKhoas());
+            *//*StoreContext context = HttpContext.RequestServices.GetService(typeof(firstWeb.Models.StoreContext)) as StoreContext;
+            return View(context.GetKhoas());*//*
         }
         public IActionResult InsertBoMon(BoMon bm)
         {
             int count;
-            StoreContext context = HttpContext.RequestServices.GetService(typeof(firstWeb.Models.StoreContext)) as StoreContext;
-            count = context.InsertBoMon(bm);
+           *//* StoreContext context = HttpContext.RequestServices.GetService(typeof(firstWeb.Models.StoreContext)) as StoreContext;
+            count = context.InsertBoMon(bm);*//*
             if (count > 0)
                 ViewData["thongbao"] = "Insert thành công";
             else
@@ -34,18 +34,18 @@ namespace firstWeb.Controllers
         }
         public IActionResult LietKeBoMon()
         {
-            StoreContext context = HttpContext.RequestServices.GetService(typeof(firstWeb.Models.StoreContext)) as StoreContext;
+            *//*StoreContext context = HttpContext.RequestServices.GetService(typeof(firstWeb.Models.StoreContext)) as StoreContext;
 
-            return View(context.GetBoMons());
+            return View(context.GetBoMons());*//*
         }
 
         //Đếm số sinh viên trong từng bộ môn
         public IActionResult SoSinhVien()
         {
-            StoreContext context = HttpContext.RequestServices.GetService(typeof(firstWeb.Models.StoreContext)) as StoreContext;
+            *//*StoreContext context = HttpContext.RequestServices.GetService(typeof(firstWeb.Models.StoreContext)) as StoreContext;
 
-            return View(context.SoSinhVienTrongBoMon());//object 
-        }
+            return View(context.SoSinhVienTrongBoMon());//object *//*
+        }*/
 
     }
 }
