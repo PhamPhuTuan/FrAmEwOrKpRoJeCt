@@ -3,6 +3,7 @@ using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using FrameworkProject.Models;
+using System.Globalization;
 
 namespace firstWeb.Models
 {
@@ -435,29 +436,35 @@ namespace firstWeb.Models
             {
                 conn.Open();
 
-                string str = "select * from Users where Username = @username and Password = @pass";
+                string str = "select * from Users where Email = @username and Password = @pass";
                 MySqlCommand cmd = new MySqlCommand(str, conn);
-                cmd.Parameters.AddWithValue("username", u.USERNAME);
+                cmd.Parameters.AddWithValue("username", u.EMAIL);
                 cmd.Parameters.AddWithValue("pass", u.PASSWORD);
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        u1 = new Users(
-                            Int32.Parse(reader["UserID"].ToString()),
-                            reader["Username"].ToString(),
-                            reader["Password"].ToString(),
+                        CultureInfo culture = new CultureInfo("en-US");
+                        DateTime day = Convert.ToDateTime("7/10/2002 12:10:15 PM", culture);
+
+                        u1 = new Users();
+                        u1.USERID = Int32.Parse(reader["UserID"].ToString());
+                        u1.USERNAME = reader["Username"].ToString();
+                        u1.PASSWORD = reader["Password"].ToString();
+                        u1.EMAIL = reader["Email"].ToString();
+                        
+                            /*,
                             reader["Address"].ToString(),
-                            reader["Email"].ToString(),
+                            ,
                             reader["Phone"].ToString(),
                             reader["Firstname"].ToString(),
                             reader["Lastname"].ToString(),
-                            DateTime.Parse(reader["DateOfBirth"].ToString()),
-                            DateTime.Parse(reader["Registrationdate"].ToString()),
-                            DateTime.Parse(reader["UpdatedOn"].ToString()),
+                            day,
+                            day,
+                            day,
                             Int32.Parse(reader["IsAdmin"].ToString()),
                             Int32.Parse(reader["IsDeleted"].ToString()), 0
-                        );
+                        );*/
                     }
                     reader.Close();
                 }

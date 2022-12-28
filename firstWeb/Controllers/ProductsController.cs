@@ -19,6 +19,7 @@ namespace FrameworkProject.Controllers
 
         public IActionResult Home()
         {
+            ViewData["user"] = firstWeb.Program.USERGLOBAL.EMAIL;
             return View();
         }
 

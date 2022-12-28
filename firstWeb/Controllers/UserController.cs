@@ -1,4 +1,5 @@
-﻿using FrameworkProject.Models;
+﻿using firstWeb.Models;
+using FrameworkProject.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,14 +17,22 @@ namespace FrameworkProject.Controllers
             return View();
         }
 
-        public ActionResult Login()
+        public ActionResult Login(string mess)
         {
             Users USERGLOBAL = firstWeb.Program.USERGLOBAL;
             if (USERGLOBAL.USERNAME != null)
             {
                 ViewData["u"] = firstWeb.Program.USERGLOBAL.USERNAME ?? "A";
             }
+            if (mess != null)
+            {
+                ViewData["Message"] = mess;
+            }
+            else
+            {
+                ViewData["Message"] = "";
 
+            }
             return View();
         }
         public ActionResult Regis(Users u)
@@ -42,6 +51,31 @@ namespace FrameworkProject.Controllers
             @ViewData["pass"] = u.PASSWORD;
             @ViewData["role"] = u.ROLEID;
             return View();
+        }
+
+        public ActionResult Load(Users u)
+        {
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(firstWeb.Models.StoreContext)) as StoreContext;
+            if (u != null)
+            {
+                Users a = context.LogIn(u);
+                if (a.EMAIL == null)
+                {
+                    string mess = "Account does not exist or wrong password.";
+                    return RedirectToAction("Login", new { mess});
+                }
+                else
+                {
+                    firstWeb.Program.USERGLOBAL = a;
+                    return RedirectToAction("Home", "Products");
+                }
+            }
+            else
+            {
+                string mess = "";
+                return RedirectToAction("Login", new { mess});
+            }
+            ;
         }
     }
 }
