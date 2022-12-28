@@ -18,8 +18,8 @@ namespace FrameworkProject.Controllers
 
         public ActionResult Login()
         {
-            Users uSERGLOBAL = firstWeb.Program.USERGLOBAL;
-            if (uSERGLOBAL.USERNAME != null)
+            Users USERGLOBAL = firstWeb.Program.USERGLOBAL;
+            if (USERGLOBAL.USERNAME != null)
             {
                 ViewData["u"] = firstWeb.Program.USERGLOBAL.USERNAME ?? "A";
             }
@@ -35,7 +35,7 @@ namespace FrameworkProject.Controllers
             return View();
         }
 
-        public ActionResult profile()
+        public ActionResult Profile()
         {
             Users u = firstWeb.Program.USERGLOBAL;
             @ViewData["user"] = u.USERNAME;

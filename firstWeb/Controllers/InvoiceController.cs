@@ -8,7 +8,13 @@ namespace FrameworkProject.Controllers
 {
     public class InvoiceController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Package()
+        {
+
+            return View();
+        }
+
+        public IActionResult Succeed()
         {
             return View();
         }

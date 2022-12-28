@@ -1,0 +1,335 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        .cart {
+            display: flex;
+            width: 1097px;
+            /* min-height: 1125px;    */
+            flex-direction: column;
+            margin: 0 auto;
+            margin-top: 38px;
+            align-items: center;
+        }
+
+        .cart-title {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            font-size: 20px;
+            line-height: 24px;
+            height: 29px;
+        }
+
+        .cart-link {
+            color: #2f80ed;
+            cursor: pointer;
+        }
+
+        .items-detail {
+            width: 100%;
+            min-height: 1035px;
+            box-shadow: rgba(0, 0, 0, 0.5) 0px 1px 6px;
+            border-radius: 10px;
+            font-size: 20px;
+            padding: 20px 27px 0px;
+        }
+
+        .item-detail {
+            display: flex;
+            justify-content: space-between;
+            height: 232px;
+        }
+
+        .item-detail-left {
+            display: flex;
+            gap: 40px;
+        }
+
+        .item-checkbox {
+            width: 32px;
+            height: 32px;
+            margin: auto 0;
+            /* margin-top: 0px; */
+        }
+
+        .item-name {
+            margin-top: 27px;
+        }
+
+        .item-image {
+            width: 136px;
+            height: 212px;
+            /* margin: auto 0; */
+        }
+
+        .item-desc {
+            /* flex-direction: column; */
+        }
+
+        .item-code {
+            margin-bottom: 3px;
+        }
+
+        .item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 52px;
+            margin-left: 10px;
+        }
+
+        /* Right */
+        .item-detail-right {
+            display: flex;
+            flex-direction: column;
+            padding-right: 50px;
+        }
+
+        .item-quanlity table td {
+            width: 40px;
+            height: 41px;
+            text-align: center;
+        }
+
+        .item-price {
+            margin-top: 27px;
+            margin-bottom: 50px;
+        }
+
+        /*  */
+        .item-buyAll {
+            display: flex;
+            gap: 20px;
+            height: 54px;
+            align-items: center;
+        }
+
+        /* Select box */
+        .selectdiv {
+            position: relative;
+            /*Don't really need this just for demo styling*/
+
+            float: left;
+            min-width: 426px;
+            height: 69px;
+            margin: 30px 0px;
+        }
+
+        /* IE11 hide native button (thanks Matt!) */
+        select::-ms-expand {
+            display: none;
+        }
+
+        .selectdiv:after {
+            content: '<>';
+            font: 17px "Consolas", monospace;
+            color: #333;
+            -webkit-transform: rotate(90deg);
+            -moz-transform: rotate(90deg);
+            -ms-transform: rotate(90deg);
+            transform: rotate(90deg);
+            right: 11px;
+            /*Adjust for position however you want*/
+
+            top: 18px;
+            padding: 0 0 2px;
+            border-bottom: 1px solid #999;
+            /*left line */
+
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .selectdiv select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            display: block;
+            width: 100%;
+            max-width: 320px;
+            height: 50px;
+            float: right;
+            margin: 5px 0px;
+            padding: 0px 24px;
+            font-size: 16px;
+            line-height: 1.75;
+            color: #333;
+            background-color: #ffffff;
+            background-image: none;
+            border: 1px solid #cccccc;
+            -ms-word-break: normal;
+            word-break: normal;
+        }
+
+
+        /* Tổng tiền */
+
+        .item-totalPrice {
+            display: flex;
+            padding: 25px 60px;
+            justify-content: space-between;
+        }
+
+            .item-totalPrice p:nth-child(1) {
+                font-weight: bold;
+            }
+
+            .item-totalPrice p:nth-child(2) {
+                font-weight: bold;
+                color: #ef2121;
+                margin-right: 26px;
+            }
+
+        .item-info-footer {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+            .item-info-footer button {
+                margin: 33px auto;
+                width: 429px;
+                height: 56px;
+                border-radius: 19px;
+                color: white;
+                background-color: black;
+                font-size: 18px;
+                font-weight: 600;
+                cursor: pointer;
+            }
+
+            .item-info-footer p {
+                margin: 0 auto;
+            }
+
+        /* Footer */
+
+        .cart-footer {
+            color: #ABABAB;
+            font-size: 20px;
+            font-weight: 400;
+            margin-top: 27px;
+            margin-bottom: 115px;
+            line-height: 24px;
+        }
+
+            .cart-footer a {
+                color: #ABABAB;
+            }
+
+    </style>
+    <body>
+        <div class="cart">
+            <div class="cart-title">
+                <a class="cart-link">Mua thêm sản phẩm khác</a>
+                <span>Giỏ hàng của bạn</span>
+            </div>
+            <div class="items-detail">
+                <div class="item-detail">
+                    <div class="item-detail-left">
+                        <input class="item-checkbox" type="checkbox" />
+                        <img class="item-image"
+                             src="https://i.pinimg.com/236x/10/34/d8/1034d8be1d06ffe02e54202b7b107a61.jpg"
+                             alt="" />
+                        <div class="item-info">
+                            <p class="item-name">Fiddle-leaf fig</p>
+                            <div class="item-desc">
+                                <p class="item-code">6 khuyến mãi</p>
+                                <p class="item-type">Loại cây : Xanh</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-detail-right">
+                        <div class="item-price">20.000.000 đ</div>
+                        <div class="item-quanlity">
+                            <table border="1">
+                                <tr>
+                                    <td>-</td>
+                                    <td>1</td>
+                                    <td>+</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <hr width="1055px" size="1px" align="center" color="000000" />
+                <div class="item-detail">
+                    <div class="item-detail-left">
+                        <input class="item-checkbox" type="checkbox" />
+                        <img class="item-image"
+                             src="https://i.pinimg.com/236x/10/34/d8/1034d8be1d06ffe02e54202b7b107a61.jpg"
+                             alt="" />
+                        <div class="item-info">
+                            <p class="item-name">Fiddle-leaf fig</p>
+                            <div class="item-desc">
+                                <p class="item-code">6 khuyến mãi</p>
+                                <p class="item-type">Loại cây : Xanh</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-detail-right">
+                        <div class="item-price">20.000.000 đ</div>
+                        <div class="item-quanlity">
+                            <table border="1">
+                                <tr>
+                                    <td>-</td>
+                                    <td>1</td>
+                                    <td>+</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item-buyAll">
+                    <input class="item-checkbox" type="checkbox" name="" id="" />
+                    <p>Chọn mua tất cả</p>
+                </div>
+                <hr width="1055px" size="1px" align="center" color="000000" />
+
+                <div class="item-vouncher">
+                    <div class="selectdiv">
+                        <label>
+                            <select>
+                                <option selected> Sử dụng mã giảm giá </option>
+                                <option>Option 1</option>
+                                <option>Option 2</option>
+                                <option>Last long option</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+                <hr width="1055px" size="1px" align="center" color="000000" />
+
+                <div class="item-totalPrice">
+                    <p>Tổng tiền:</p>
+                    <p>82.990.000đ</p>
+                </div>
+                <hr width="1055px" size="1px" align="center" color="000000" />
+
+
+                <div class="item-info-footer">
+                    <button>Đặt hàng</button>
+                    <p>Bạn có thể chọn hình thức thanh toán sau khi đặt hàng</p>
+                </div>
+            </div>
+            <div class="cart-footer">
+                Bằng cách đặt hàng, bạn đồng ý với
+                <a href="">Điều khoản sử dụng của NumberOne</a>
+            </div>
+        </div>
+    </body>
+}
+
