@@ -3,8 +3,7 @@
 *@
 @model IEnumerable<FrameworkProject.Models.Products>
 @{
-
-}
+    ViewData["Title"] = "Plants"; }
 @{
     <!DOCTYPE html>
     <html lang="en">
@@ -330,31 +329,31 @@
         </div>
     </body>
     <script>
-    const love = document.querySelectorAll(".unfavorite");
-    const loved = document.querySelectorAll(".favorite");
-    console.log(love);
+        const love = document.querySelectorAll(".unfavorite");
+        const loved = document.querySelectorAll(".favorite");
+        console.log(love);
 
-    function addFavoriteProduct() {
-      for (var i = 0; i < love.length; i++) {
-        love[i].addEventListener(
-          "click",
-          function (i) {
-            console.log(love[i]);
-            love[i].style.display = "none";
-            loved[i].style.display = "block";
-          }.bind(this, i)
-        );
-        loved[i].addEventListener(
-          "click",
-          function (i) {
-            loved[i].style.display = "none";
-            love[i].style.display = "block";
-          }.bind(this, i)
-        );
-      }
-    }
+        function addFavoriteProduct() {
+            for (var i = 0; i < love.length; i++) {
+                love[i].addEventListener(
+                    "click",
+                    function (i) {
+                        console.log(love[i]);
+                        love[i].style.display = "none";
+                        loved[i].style.display = "block";
+                    }.bind(this, i)
+                );
+                loved[i].addEventListener(
+                    "click",
+                    function (i) {
+                        loved[i].style.display = "none";
+                        love[i].style.display = "block";
+                    }.bind(this, i)
+                );
+            }
+        }
 
-    this.addFavoriteProduct();
+        this.addFavoriteProduct();
     </script>
 </html>
 }

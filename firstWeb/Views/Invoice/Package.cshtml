@@ -11,6 +11,8 @@
     string s2 = "g";
 }
 @{
+    ViewData["Title"] = "Cart"; }
+@{
     <style>
         body {
             margin: 0;
@@ -87,12 +89,12 @@
 
         .item-desc {
             /* flex-direction: column; */
-            min-height:100px;
+            min-height: 100px;
         }
 
         .item-code {
             margin-bottom: 3px;
-            text-align:justify;
+            text-align: justify;
         }
 
         .item-info {
@@ -100,7 +102,7 @@
             flex-direction: column;
             gap: 52px;
             margin-left: 10px;
-            width:600px;
+            width: 600px;
         }
 
         /* Right */
@@ -272,13 +274,13 @@
                                         <tr>
                                             <td>
                                                 <a href="/Invoice/Giam?p=@item.PROID&q=@item.QUANTITY&s=@s2" style="color: black">
-                                                -
+                                                    -
                                                 </a>
                                             </td>
                                             <td>@item.QUANTITY</td>
                                             <td>
                                                 <a href="/Invoice/Giam?p=@item.PROID&q=@item.QUANTITY&s=@s1" style="color: black">
-                                                   +
+                                                    +
                                                 </a>
                                             </td>
                                         </tr>
@@ -291,7 +293,7 @@
                 }
 
 
-                
+
                 <hr width="1055px" size="1px" align="center" color="000000" />
 
                 <div class="item-totalPrice">

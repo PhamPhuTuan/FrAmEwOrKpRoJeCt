@@ -730,15 +730,16 @@ namespace firstWeb.Models
             return count;
         }
         // Get invoice
-        public Invoices GetInv()
+        public Invoices GetInv(int u)
         {
             Invoices i = new Invoices();
             using (MySqlConnection conn = GetConnection())
             {
                 conn.Open();
 
-                var str1 = "SELECT * from invoice order by PackID DESC limit 1";
+                var str1 = "SELECT * from invoice where UserID = @u order by PackID DESC limit 1";
                 MySqlCommand cmd1 = new MySqlCommand(str1, conn);
+                cmd1.Parameters.AddWithValue("u", u);
                 using (var reader = cmd1.ExecuteReader())
                 {
                     while (reader.Read())

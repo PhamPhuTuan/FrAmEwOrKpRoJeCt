@@ -2,6 +2,8 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    ViewData["Title"] = "Plants care"; }
+@{
     <style lang="scss">
         .tips {
             margin-bottom: rem(100);
@@ -22,6 +24,7 @@
             grid-template-areas:
                 "txt1 img1" "img2 txt2" "txt3 img3";
         }
+
         .tips-container img {
             max-height: rem(750);
             height: 100%;
@@ -38,7 +41,6 @@
             text-align: justify;
             margin-right: 20px;
             padding-right: rem(10);
-
         }
 
         .tips-content-2 {
@@ -69,8 +71,6 @@
         .tips-image-3 {
             grid-area: img3;
         }
-
-        
     </style>
     <section class="tips">
         <div class="container tips-container">

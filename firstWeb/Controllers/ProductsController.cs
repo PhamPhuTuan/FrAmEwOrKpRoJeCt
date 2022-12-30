@@ -68,7 +68,7 @@ namespace FrameworkProject.Controllers
             Invoices i = new Invoices();
             i.PACKID = firstWeb.Program.INVOICEGLOBAL.PACKID;
             context.InsertProductintoInvoice(p, i, 1);
-            firstWeb.Program.INVOICEGLOBAL = context.GetInv();
+            firstWeb.Program.INVOICEGLOBAL = context.GetInv(firstWeb.Program.USERGLOBAL.USERID);
             return RedirectToAction("Plants");
         }
 

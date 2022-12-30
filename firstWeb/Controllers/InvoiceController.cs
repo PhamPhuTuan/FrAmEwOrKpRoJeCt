@@ -39,7 +39,8 @@ namespace FrameworkProject.Controllers
 
             i.QUANTITY = q - 1;
             }
-            int a = context.UpdateProductInInvoice(i);
+            context.UpdateProductInInvoice(i);
+            firstWeb.Program.INVOICEGLOBAL = context.GetInv(firstWeb.Program.USERGLOBAL.USERID);
             return RedirectToAction("Package");
         }
         public IActionResult Tang(int p, int q)
