@@ -110,7 +110,19 @@ namespace FrameworkProject.Models
         
         public Users()
         {
-
+            UserID = 0;
+            Username = "";
+            Password = "";
+            Address = "";
+            Phone = "";
+            Firstname = "";
+            Lastname = "";
+            DateOfBirth = new DateTime();
+            Registrationdate = new DateTime();
+            UpdatedOn = new DateTime();
+            Roleid = 0;
+            IsDeleted = 0;
+            IsBan = 0;
         }
 
         public override bool Equals(object obj)

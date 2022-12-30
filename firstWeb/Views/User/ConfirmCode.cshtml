@@ -1,7 +1,7 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model IEnumerable<FrameworkProject.Models.Users>
+@model IEnumerable<string>
 @{
     <style>
                 body {
@@ -28,7 +28,7 @@
                 }
 
                 .login-form {
-                    margin-left: 100px;
+                    margin-left: 140px;
                     margin-top: 60px;
                     width: 425px;
                 }
@@ -169,6 +169,7 @@
                     font-weight: 600;
                     line-height: 19px;
                     cursor: pointer;
+                    font-size: 20px;
                 }
 
                     .login-button:hover {
@@ -190,7 +191,7 @@
 
 
                 .login-page-right {
-                    background-image: url('/wwwroot/assets/images/strelitzia-nicolai.png');
+                    background-image: url('./images/photo-background.png');
                     width: 562px;
                     height: 100%;
                     background-position: center;
@@ -199,12 +200,8 @@
                 }
 
                     .login-page-right img {
+                        height: 100%;
                         width: 100%;
-                        height: 100%
-                    }
-
-                    .login-page-right.register {
-                        background-image: url('./images/plant.jpg');
                     }
 
                 .login-footer {
@@ -215,49 +212,36 @@
                     margin-top: 76px;
                 }
     </style>
-    <h3 style="color: red">@ViewData["message"]</h3>
+
     <body>
+        <h3 style="color: red">@ViewData["Message"]</h3>
         <div class="login-page">
             <div class="login-page-left">
-                <form class="login-form" action="/User/LoadRegisToHome" method="post">
+                <form action="/User/LoadConfirmMailtoHome" method="post" class="login-form">
                     <div class="login-logo">
-                        <img src="./images/logo.png" alt="" srcset="" />
+                        <img src="/assets/images/planty-logo.svg" alt="" srcset="" />
                     </div>
-                    <div class="login-title">Register</div>
+                    <div class="login-title">Confirm Code</div>
                     <div class="login-desc">
-                        Register to purcharsing your favorite plant!
+                        See your growth and get consulting support!
                     </div>
 
                     <div class="login-field">
-                        <div class="login-email">Email<span>*</span></div>
+                        <div class="login-email">Code<span>*</span></div>
                         <div class="login-button-form">
-                            <input name="Email" placeholder="mail@website.com" type="text" />
+                            <input name="s" placeholder="Your Code" type="text" />
                         </div>
                     </div>
-                    <div class="login-field">
-                        <div class="login-password">Password<span>*</span></div>
-                        <div class="login-button-form">
-                            <input name="Password" placeholder="Min. 8 character" type="text" />
-                        </div>
+                    <div class="login-remember">
                     </div>
-                    <div class="login-field">
-                        <div class="login-password">Confirm Password<span>*</span></div>
-                        <div class="login-button-form">
-                            <input name="Address" placeholder="Min. 8 character" type="text" />
-                        </div>
-                    </div>
-                    <input type="submit" name="submit" value="Register" class="login-button register login-button-form "/>
-                    
-                    <div class="login-create">
-                        <a href="/User/Login">I had an account.</a>
-                    </div>
+                    <button class="login-button login-button-form">Confirm</button>
                     <div class="login-footer">
                         @@ 2022 Planty’s All rights reserved.
                     </div>
                 </form>
             </div>
-            <div class="login-page-right register">
-                <img src="~/assets/images/photo-background.png" />
+            <div class="login-page-right">
+                <img src="~/assets/images/strelitzia-nicolai.png" />
             </div>
         </div>
     </body>

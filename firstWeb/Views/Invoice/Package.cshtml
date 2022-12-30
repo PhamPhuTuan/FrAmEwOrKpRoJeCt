@@ -1,7 +1,15 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-
+@model IEnumerable<FrameworkProject.Models.Products>
+@using FrameworkProject.Controllers
+@using FrameworkProject.Models
+@using Microsoft.AspNetCore.Mvc
+@{
+    var listp = ViewData["list"] as List<FrameworkProject.Models.Products>;
+    string s1 = "t";
+    string s2 = "g";
+}
 @{
     <style>
         body {
@@ -45,13 +53,14 @@
             box-shadow: rgba(0, 0, 0, 0.5) 0px 1px 6px;
             border-radius: 10px;
             font-size: 20px;
+            max-width: 80vw;
             padding: 20px 27px 0px;
         }
 
         .item-detail {
             display: flex;
             justify-content: space-between;
-            height: 232px;
+            min-height: 232px;
         }
 
         .item-detail-left {
@@ -78,10 +87,12 @@
 
         .item-desc {
             /* flex-direction: column; */
+            min-height:100px;
         }
 
         .item-code {
             margin-bottom: 3px;
+            text-align:justify;
         }
 
         .item-info {
@@ -89,6 +100,7 @@
             flex-direction: column;
             gap: 52px;
             margin-left: 10px;
+            width:600px;
         }
 
         /* Right */
@@ -198,7 +210,7 @@
             flex-direction: column;
         }
 
-            .item-info-footer button {
+            .item-info-footer a {
                 margin: 33px auto;
                 width: 429px;
                 height: 56px;
@@ -208,6 +220,9 @@
                 font-size: 18px;
                 font-weight: 600;
                 cursor: pointer;
+                display: inline-block;
+                line-height: 56px;
+                text-align: center;
             }
 
             .item-info-footer p {
@@ -221,115 +236,79 @@
             font-size: 20px;
             font-weight: 400;
             margin-top: 27px;
-            margin-bottom: 115px;
             line-height: 24px;
         }
 
             .cart-footer a {
                 color: #ABABAB;
             }
-
     </style>
     <body>
         <div class="cart">
             <div class="cart-title">
-                <a class="cart-link">Mua thêm sản phẩm khác</a>
-                <span>Giỏ hàng của bạn</span>
+                <a class="cart-link ml-5" style="color: cornflowerblue" href="/Products/Plants">Buy other products</a>
             </div>
             <div class="items-detail">
-                <div class="item-detail">
-                    <div class="item-detail-left">
-                        <input class="item-checkbox" type="checkbox" />
-                        <img class="item-image"
-                             src="https://i.pinimg.com/236x/10/34/d8/1034d8be1d06ffe02e54202b7b107a61.jpg"
-                             alt="" />
-                        <div class="item-info">
-                            <p class="item-name">Fiddle-leaf fig</p>
-                            <div class="item-desc">
-                                <p class="item-code">6 khuyến mãi</p>
-                                <p class="item-type">Loại cây : Xanh</p>
+                @{
+                    @foreach (var item in Model)
+                    {
+                        <div class="item-detail">
+                            <div class="item-detail-left">
+                                <img class="item-image"
+                                     src="https://i.pinimg.com/236x/10/34/d8/1034d8be1d06ffe02e54202b7b107a61.jpg"
+                                     alt="" />
+                                <div class="item-info">
+                                    <p class="item-name">@item.NAME</p>
+                                    <div class="item-desc">
+                                        <p class="item-code">@item.DESCRIPTION</p>
+                                        <p class="item-type">Type : @item.CATEID</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item-detail-right">
+                                <div class="item-price">@item.PRICE đ</div>
+                                <div class="item-quanlity">
+                                    <table border="1">
+                                        <tr>
+                                            <td>
+                                                <a href="/Invoice/Giam?p=@item.PROID&q=@item.QUANTITY&s=@s2" style="color: black">
+                                                -
+                                                </a>
+                                            </td>
+                                            <td>@item.QUANTITY</td>
+                                            <td>
+                                                <a href="/Invoice/Giam?p=@item.PROID&q=@item.QUANTITY&s=@s1" style="color: black">
+                                                   +
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="item-detail-right">
-                        <div class="item-price">20.000.000 đ</div>
-                        <div class="item-quanlity">
-                            <table border="1">
-                                <tr>
-                                    <td>-</td>
-                                    <td>1</td>
-                                    <td>+</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <hr width="1055px" size="1px" align="center" color="000000" />
-                <div class="item-detail">
-                    <div class="item-detail-left">
-                        <input class="item-checkbox" type="checkbox" />
-                        <img class="item-image"
-                             src="https://i.pinimg.com/236x/10/34/d8/1034d8be1d06ffe02e54202b7b107a61.jpg"
-                             alt="" />
-                        <div class="item-info">
-                            <p class="item-name">Fiddle-leaf fig</p>
-                            <div class="item-desc">
-                                <p class="item-code">6 khuyến mãi</p>
-                                <p class="item-type">Loại cây : Xanh</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item-detail-right">
-                        <div class="item-price">20.000.000 đ</div>
-                        <div class="item-quanlity">
-                            <table border="1">
-                                <tr>
-                                    <td>-</td>
-                                    <td>1</td>
-                                    <td>+</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+                        <hr width="1055px" size="1px" align="center" color="000000" />
+                    }
+                }
 
-                <div class="item-buyAll">
-                    <input class="item-checkbox" type="checkbox" name="" id="" />
-                    <p>Chọn mua tất cả</p>
-                </div>
-                <hr width="1055px" size="1px" align="center" color="000000" />
 
-                <div class="item-vouncher">
-                    <div class="selectdiv">
-                        <label>
-                            <select>
-                                <option selected> Sử dụng mã giảm giá </option>
-                                <option>Option 1</option>
-                                <option>Option 2</option>
-                                <option>Last long option</option>
-                            </select>
-                        </label>
-                    </div>
-                </div>
+                
                 <hr width="1055px" size="1px" align="center" color="000000" />
 
                 <div class="item-totalPrice">
-                    <p>Tổng tiền:</p>
-                    <p>82.990.000đ</p>
+                    <p>Total:</p>
+                    <p>@ViewData["Inv"] đ</p>
                 </div>
                 <hr width="1055px" size="1px" align="center" color="000000" />
 
 
                 <div class="item-info-footer">
-                    <button>Đặt hàng</button>
-                    <p>Bạn có thể chọn hình thức thanh toán sau khi đặt hàng</p>
+                    <a href="/Invoice/Succeed">Pay</a>
                 </div>
             </div>
-            <div class="cart-footer">
-                Bằng cách đặt hàng, bạn đồng ý với
-                <a href="">Điều khoản sử dụng của NumberOne</a>
-            </div>
         </div>
+        <script>
+            var btnMinus = document.getElementById("minus");
+            btnMinus.addEventListener("click", (e) => { e = e - 1 })
+        </script>
     </body>
 }
-

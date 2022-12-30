@@ -33,20 +33,128 @@ namespace firstWeb.Models
                 {
                     while (reader.Read())
                     {
-                        list.Add(new Products()
-                        {
-                            PROID = Int32.Parse(reader["ProID"].ToString()),
-                            NAME = reader["Name"].ToString(),
-                            DESCRIPTION = reader["Description"].ToString(),
-                            STAR = Int32.Parse(reader["Star"].ToString()),
-                            QUANTITY = Int32.Parse(reader["Quantity"].ToString()),
-                            CATEID = Int32.Parse(reader["CateId"].ToString()),
-                            CREATEDON = DateTime.Parse(reader["CreatedOn"].ToString()),
-                            UPDATEDON = DateTime.Parse(reader["UpdatedOn"].ToString()),
-                            STATUS = Int32.Parse(reader["Status"].ToString()),
-                            ISDELETED = Int32.Parse(reader["IsDeleted"].ToString()),
-                            PRICE = float.Parse(reader["Price"].ToString()),
-                        });
+                        CultureInfo culture = new CultureInfo("en-US");
+                        DateTime day = Convert.ToDateTime("7/10/2002 12:10:15 PM", culture);
+                        Products p = new Products();
+                        p.PROID = Int32.Parse(reader["ProductID"].ToString());
+                        p.NAME = reader["Name"].ToString();
+                        p.DESCRIPTION = reader["Description"].ToString();
+                        p.STAR = Int32.Parse(reader["StarNumber"].ToString());
+                        p.QUANTITY = Int32.Parse(reader["Quantity"].ToString());
+                        p.CATEID = Int32.Parse(reader["CateId"].ToString());
+                        p.CREATEDON = Convert.ToDateTime(reader["CreatedOn"].ToString(), culture);
+                        p.STATUS = Int32.Parse(reader["Status"].ToString());
+                        p.PRICE = float.Parse(reader["Price"].ToString()); 
+                        p.IMG = reader["Img"].ToString();
+                        list.Add(p);
+                    }
+                    reader.Close();
+                }
+
+                conn.Close();
+
+            }
+            return list;
+        }
+        // Get newest
+        public List<Products> GetNewest()
+        {
+            List<Products> list = new List<Products>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string str = "select * from products WHERE IsDeleted = false ORDER by CreatedOn desc";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        CultureInfo culture = new CultureInfo("en-US");
+                        DateTime day = Convert.ToDateTime("7/10/2002 12:10:15 PM", culture);
+                        Products p = new Products();
+                        p.PROID = Int32.Parse(reader["ProductID"].ToString());
+                        p.NAME = reader["Name"].ToString();
+                        p.DESCRIPTION = reader["Description"].ToString();
+                        p.STAR = Int32.Parse(reader["StarNumber"].ToString());
+                        p.QUANTITY = Int32.Parse(reader["Quantity"].ToString());
+                        p.CATEID = Int32.Parse(reader["CateId"].ToString());
+                        p.CREATEDON = Convert.ToDateTime(reader["CreatedOn"].ToString(), culture);
+                        p.STATUS = Int32.Parse(reader["Status"].ToString());
+                        p.PRICE = float.Parse(reader["Price"].ToString());
+                        p.IMG = reader["Img"].ToString();
+                        list.Add(p);
+                    }
+                    reader.Close();
+                }
+
+                conn.Close();
+
+            }
+            return list;
+        }
+        // Get Price Desc
+        public List<Products> GetPriceDesc()
+        {
+            List<Products> list = new List<Products>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string str = "select * from products WHERE IsDeleted = false ORDER by Price desc;";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        CultureInfo culture = new CultureInfo("en-US");
+                        DateTime day = Convert.ToDateTime("7/10/2002 12:10:15 PM", culture);
+                        Products p = new Products();
+                        p.PROID = Int32.Parse(reader["ProductID"].ToString());
+                        p.NAME = reader["Name"].ToString();
+                        p.DESCRIPTION = reader["Description"].ToString();
+                        p.STAR = Int32.Parse(reader["StarNumber"].ToString());
+                        p.QUANTITY = Int32.Parse(reader["Quantity"].ToString());
+                        p.CATEID = Int32.Parse(reader["CateId"].ToString());
+                        p.CREATEDON = Convert.ToDateTime(reader["CreatedOn"].ToString(), culture);
+                        p.STATUS = Int32.Parse(reader["Status"].ToString());
+                        p.PRICE = float.Parse(reader["Price"].ToString());
+                        p.IMG = reader["Img"].ToString();
+                        list.Add(p);
+                    }
+                    reader.Close();
+                }
+
+                conn.Close();
+
+            }
+            return list;
+        }
+        //Get Price Asc
+        public List<Products> GetPriceAsc()
+        {
+            List<Products> list = new List<Products>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string str = "select * from products WHERE IsDeleted = false ORDER by Price asc;";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        CultureInfo culture = new CultureInfo("en-US");
+                        DateTime day = Convert.ToDateTime("7/10/2002 12:10:15 PM", culture);
+                        Products p = new Products();
+                        p.PROID = Int32.Parse(reader["ProductID"].ToString());
+                        p.NAME = reader["Name"].ToString();
+                        p.DESCRIPTION = reader["Description"].ToString();
+                        p.STAR = Int32.Parse(reader["StarNumber"].ToString());
+                        p.QUANTITY = Int32.Parse(reader["Quantity"].ToString());
+                        p.CATEID = Int32.Parse(reader["CateId"].ToString());
+                        p.CREATEDON = Convert.ToDateTime(reader["CreatedOn"].ToString(), culture);
+                        p.STATUS = Int32.Parse(reader["Status"].ToString());
+                        p.PRICE = float.Parse(reader["Price"].ToString());
+                        p.IMG = reader["Img"].ToString();
+                        list.Add(p);
                     }
                     reader.Close();
                 }
@@ -72,20 +180,137 @@ namespace firstWeb.Models
                 {
                     while (reader.Read())
                     {
-                        list.Add(new Products()
-                        {
-                            PROID = Int32.Parse(reader["ProID"].ToString()),
-                            NAME = reader["Name"].ToString(),
-                            DESCRIPTION = reader["Description"].ToString(),
-                            STAR = Int32.Parse(reader["Star"].ToString()),
-                            QUANTITY = Int32.Parse(reader["Quantity"].ToString()),
-                            CATEID = Int32.Parse(reader["CateId"].ToString()),
-                            CREATEDON = DateTime.Parse(reader["CreatedOn"].ToString()),
-                            UPDATEDON = DateTime.Parse(reader["UpdatedOn"].ToString()),
-                            STATUS = Int32.Parse(reader["Status"].ToString()),
-                            ISDELETED = Int32.Parse(reader["IsDeleted"].ToString()),
-                            PRICE = float.Parse(reader["Price"].ToString()),
-                        });
+                        CultureInfo culture = new CultureInfo("en-US");
+                        DateTime day = Convert.ToDateTime("7/10/2002 12:10:15 PM", culture);
+                        Products p = new Products();
+                        p.PROID = Int32.Parse(reader["ProductID"].ToString());
+                        p.NAME = reader["Name"].ToString();
+                        p.DESCRIPTION = reader["Description"].ToString();
+                        p.STAR = Int32.Parse(reader["StarNumber"].ToString());
+                        p.QUANTITY = Int32.Parse(reader["Quantity"].ToString());
+                        p.CATEID = Int32.Parse(reader["CateId"].ToString());
+                        p.CREATEDON = Convert.ToDateTime(reader["CreatedOn"].ToString(), culture);
+                        p.STATUS = Int32.Parse(reader["Status"].ToString());
+                        p.PRICE = float.Parse(reader["Price"].ToString());
+                        p.IMG = reader["Img"].ToString();
+                        list.Add(p);
+                    }
+                    reader.Close();
+                }
+
+                conn.Close();
+
+            }
+            return list;
+        }
+        // Get my plants newest
+        public List<Products> GetFavoriteProductsNewest(int userID)
+        {
+            List<Products> list = new List<Products>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string str = "select * from favoriteproduct f, products p where p.ProductID =" +
+                    " f.ProductID and f.UserID = @userid and p.IsDeleted = 0 ORDER by CreatedOn desc";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("userid", userID);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        CultureInfo culture = new CultureInfo("en-US");
+                        DateTime day = Convert.ToDateTime("7/10/2002 12:10:15 PM", culture);
+                        Products p = new Products();
+                        p.PROID = Int32.Parse(reader["ProductID"].ToString());
+                        p.NAME = reader["Name"].ToString();
+                        p.DESCRIPTION = reader["Description"].ToString();
+                        p.STAR = Int32.Parse(reader["StarNumber"].ToString());
+                        p.QUANTITY = Int32.Parse(reader["Quantity"].ToString());
+                        p.CATEID = Int32.Parse(reader["CateId"].ToString());
+                        p.CREATEDON = Convert.ToDateTime(reader["CreatedOn"].ToString(), culture);
+                        p.STATUS = Int32.Parse(reader["Status"].ToString());
+                        p.PRICE = float.Parse(reader["Price"].ToString());
+                        p.IMG = reader["Img"].ToString();
+                        list.Add(p);
+                    }
+                    reader.Close();
+                }
+
+                conn.Close();
+
+            }
+            return list;
+        }
+        // Get my plant price desc
+        public List<Products> GetFavoriteProductsPriceDesc(int userID)
+        {
+            List<Products> list = new List<Products>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string str = "select * from favoriteproduct f, products p where p.ProductID =" +
+                    " f.ProductID and f.UserID = @userid and p.IsDeleted = 0 ORDER by Price desc";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("userid", userID);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        CultureInfo culture = new CultureInfo("en-US");
+                        DateTime day = Convert.ToDateTime("7/10/2002 12:10:15 PM", culture);
+                        Products p = new Products();
+                        p.PROID = Int32.Parse(reader["ProductID"].ToString());
+                        p.NAME = reader["Name"].ToString();
+                        p.DESCRIPTION = reader["Description"].ToString();
+                        p.STAR = Int32.Parse(reader["StarNumber"].ToString());
+                        p.QUANTITY = Int32.Parse(reader["Quantity"].ToString());
+                        p.CATEID = Int32.Parse(reader["CateId"].ToString());
+                        p.CREATEDON = Convert.ToDateTime(reader["CreatedOn"].ToString(), culture);
+                        p.STATUS = Int32.Parse(reader["Status"].ToString());
+                        p.PRICE = float.Parse(reader["Price"].ToString());
+                        p.IMG = reader["Img"].ToString();
+                        list.Add(p);
+                    }
+                    reader.Close();
+                }
+
+                conn.Close();
+
+            }
+            return list;
+        }
+        // Get my plant price asc
+        public List<Products> GetFavoriteProductsPriceAsc(int userID)
+        {
+            List<Products> list = new List<Products>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string str = "select * from favoriteproduct f, products p where p.ProductID =" +
+                    " f.ProductID and f.UserID = @userid and p.IsDeleted = 0 ORDER by Price asc";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("userid", userID);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        CultureInfo culture = new CultureInfo("en-US");
+                        DateTime day = Convert.ToDateTime("7/10/2002 12:10:15 PM", culture);
+                        Products p = new Products();
+                        p.PROID = Int32.Parse(reader["ProductID"].ToString());
+                        p.NAME = reader["Name"].ToString();
+                        p.DESCRIPTION = reader["Description"].ToString();
+                        p.STAR = Int32.Parse(reader["StarNumber"].ToString());
+                        p.QUANTITY = Int32.Parse(reader["Quantity"].ToString());
+                        p.CATEID = Int32.Parse(reader["CateId"].ToString());
+                        p.CREATEDON = Convert.ToDateTime(reader["CreatedOn"].ToString(), culture);
+                        p.STATUS = Int32.Parse(reader["Status"].ToString());
+                        p.PRICE = float.Parse(reader["Price"].ToString());
+                        p.IMG = reader["Img"].ToString();
+                        list.Add(p);
                     }
                     reader.Close();
                 }
@@ -139,27 +364,138 @@ namespace firstWeb.Models
             using (MySqlConnection conn = GetConnection())
             {
                 conn.Open();
-                string str = "select * from Products where IsDeleted = 0 and CateId Like %@cate%";
+                string str = "select * from Products where IsDeleted = 0 and CateId = @cate ";
                 MySqlCommand cmd = new MySqlCommand(str, conn);
                 cmd.Parameters.AddWithValue("cate", cate);
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        list.Add(new Products()
-                        {
-                            PROID = Int32.Parse(reader["ProID"].ToString()),
-                            NAME = reader["Name"].ToString(),
-                            DESCRIPTION = reader["Description"].ToString(),
-                            STAR = Int32.Parse(reader["Star"].ToString()),
-                            QUANTITY = Int32.Parse(reader["Quantity"].ToString()),
-                            CATEID = Int32.Parse(reader["CateId"].ToString()),
-                            CREATEDON = DateTime.Parse(reader["CreatedOn"].ToString()),
-                            UPDATEDON = DateTime.Parse(reader["UpdatedOn"].ToString()),
-                            STATUS = Int32.Parse(reader["Status"].ToString()),
-                            ISDELETED = Int32.Parse(reader["IsDeleted"].ToString()),
-                            PRICE = float.Parse(reader["Price"].ToString()),
-                        });
+                        CultureInfo culture = new CultureInfo("en-US");
+                        DateTime day = Convert.ToDateTime("7/10/2002 12:10:15 PM", culture);
+                        Products p = new Products();
+                        p.PROID = Int32.Parse(reader["ProductID"].ToString());
+                        p.NAME = reader["Name"].ToString();
+                        p.DESCRIPTION = reader["Description"].ToString();
+                        p.STAR = Int32.Parse(reader["StarNumber"].ToString());
+                        p.QUANTITY = Int32.Parse(reader["Quantity"].ToString());
+                        p.CATEID = Int32.Parse(reader["CateId"].ToString());
+                        p.CREATEDON = Convert.ToDateTime(reader["CreatedOn"].ToString(), culture);
+                        p.STATUS = Int32.Parse(reader["Status"].ToString());
+                        p.PRICE = float.Parse(reader["Price"].ToString());
+                        p.IMG = reader["Img"].ToString();
+                        list.Add(p);
+                    }
+                    reader.Close();
+                }
+
+                conn.Close();
+
+            }
+            return list;
+        }
+        // Product theo cate newest
+        public List<Products> SelectProductsNewest(int cate)
+        {
+            List<Products> list = new List<Products>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string str = "select * from Products where IsDeleted = 0 and CateId = @cate ORDER by CreatedOn desc";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("cate", cate);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        CultureInfo culture = new CultureInfo("en-US");
+                        DateTime day = Convert.ToDateTime("7/10/2002 12:10:15 PM", culture);
+                        Products p = new Products();
+                        p.PROID = Int32.Parse(reader["ProductID"].ToString());
+                        p.NAME = reader["Name"].ToString();
+                        p.DESCRIPTION = reader["Description"].ToString();
+                        p.STAR = Int32.Parse(reader["StarNumber"].ToString());
+                        p.QUANTITY = Int32.Parse(reader["Quantity"].ToString());
+                        p.CATEID = Int32.Parse(reader["CateId"].ToString());
+                        p.CREATEDON = Convert.ToDateTime(reader["CreatedOn"].ToString(), culture);
+                        p.STATUS = Int32.Parse(reader["Status"].ToString());
+                        p.PRICE = float.Parse(reader["Price"].ToString());
+                        p.IMG = reader["Img"].ToString();
+                        list.Add(p);
+                    }
+                    reader.Close();
+                }
+
+                conn.Close();
+
+            }
+            return list;
+        }
+        // Product theo cate gia desc
+        public List<Products> SelectProductsPriceDesc(int cate)
+        {
+            List<Products> list = new List<Products>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string str = "select * from Products where IsDeleted = 0 and CateId = @cate ORDER by Price desc";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("cate", cate);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        CultureInfo culture = new CultureInfo("en-US");
+                        DateTime day = Convert.ToDateTime("7/10/2002 12:10:15 PM", culture);
+                        Products p = new Products();
+                        p.PROID = Int32.Parse(reader["ProductID"].ToString());
+                        p.NAME = reader["Name"].ToString();
+                        p.DESCRIPTION = reader["Description"].ToString();
+                        p.STAR = Int32.Parse(reader["StarNumber"].ToString());
+                        p.QUANTITY = Int32.Parse(reader["Quantity"].ToString());
+                        p.CATEID = Int32.Parse(reader["CateId"].ToString());
+                        p.CREATEDON = Convert.ToDateTime(reader["CreatedOn"].ToString(), culture);
+                        p.STATUS = Int32.Parse(reader["Status"].ToString());
+                        p.PRICE = float.Parse(reader["Price"].ToString());
+                        p.IMG = reader["Img"].ToString();
+                        list.Add(p);
+                    }
+                    reader.Close();
+                }
+
+                conn.Close();
+
+            }
+            return list;
+        }
+        // Product theo cate gia asc
+        public List<Products> SelectProductsPriceAsc(int cate)
+        {
+            List<Products> list = new List<Products>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string str = "select * from Products where IsDeleted = 0 and CateId = @cate ORDER by Price asc";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("cate", cate);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        CultureInfo culture = new CultureInfo("en-US");
+                        DateTime day = Convert.ToDateTime("7/10/2002 12:10:15 PM", culture);
+                        Products p = new Products();
+                        p.PROID = Int32.Parse(reader["ProductID"].ToString());
+                        p.NAME = reader["Name"].ToString();
+                        p.DESCRIPTION = reader["Description"].ToString();
+                        p.STAR = Int32.Parse(reader["StarNumber"].ToString());
+                        p.QUANTITY = Int32.Parse(reader["Quantity"].ToString());
+                        p.CATEID = Int32.Parse(reader["CateId"].ToString());
+                        p.CREATEDON = Convert.ToDateTime(reader["CreatedOn"].ToString(), culture);
+                        p.STATUS = Int32.Parse(reader["Status"].ToString());
+                        p.PRICE = float.Parse(reader["Price"].ToString());
+                        p.IMG = reader["Img"].ToString();
+                        list.Add(p);
                     }
                     reader.Close();
                 }
@@ -183,20 +519,21 @@ namespace firstWeb.Models
                 {
                     while (reader.Read())
                     {
-                        list.Add(new Products()
-                        {
-                            PROID = Int32.Parse(reader["ProID"].ToString()),
-                            NAME = reader["Name"].ToString(),
-                            DESCRIPTION = reader["Description"].ToString(),
-                            STAR = Int32.Parse(reader["Star"].ToString()),
-                            QUANTITY = Int32.Parse(reader["Qty"].ToString()),
-                            CATEID = Int32.Parse(reader["CateId"].ToString()),
-                            CREATEDON = DateTime.Parse(reader["CreatedOn"].ToString()),
-                            UPDATEDON = DateTime.Parse(reader["UpdatedOn"].ToString()),
-                            STATUS = Int32.Parse(reader["Status"].ToString()),
-                            ISDELETED = Int32.Parse(reader["IsDeleted"].ToString()),
-                            PRICE = float.Parse(reader["Price"].ToString()),
-                        });
+                        CultureInfo culture = new CultureInfo("en-US");
+                        DateTime day = Convert.ToDateTime("7/10/2002 12:10:15 PM", culture);
+                        _ = new Products();
+                        Products p = new Products();
+                        p.PROID = Int32.Parse(reader["ProID"].ToString());
+                        p.NAME = reader["Name"].ToString();
+                        p.DESCRIPTION = reader["Description"].ToString();
+                        p.STAR = Int32.Parse(reader["StarNumber"].ToString());
+                        p.QUANTITY = Int32.Parse(reader["Qty"].ToString());
+                        p.CATEID = Int32.Parse(reader["CateId"].ToString());
+                        p.CREATEDON = Convert.ToDateTime(reader["CreatedOn"].ToString(), culture);
+                        p.STATUS = Int32.Parse(reader["Status"].ToString());
+                        p.PRICE = float.Parse(reader["Price"].ToString());
+                        p.IMG = reader["Img"].ToString();
+                        list.Add(p);
                     }
                     reader.Close();
                 }
@@ -205,6 +542,45 @@ namespace firstWeb.Models
 
             }
             return list;
+        }
+        // Check hang ton tai trong gio hang 
+        public int checkhang (Invoices i, int proid)
+        {
+            List<Products> list = new List<Products>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string str = "select * from products p, invoicedetail i WHERE p.ProductID = i.ProId and i.PackID = @packid and i.ProId = @proid";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("packid", i.PACKID);
+                cmd.Parameters.AddWithValue("proid", proid);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        CultureInfo culture = new CultureInfo("en-US");
+                        DateTime day = Convert.ToDateTime("7/10/2002 12:10:15 PM", culture);
+                        _ = new Products();
+                        Products p = new Products();
+                        p.PROID = Int32.Parse(reader["ProID"].ToString());
+                        p.NAME = reader["Name"].ToString();
+                        p.DESCRIPTION = reader["Description"].ToString();
+                        p.STAR = Int32.Parse(reader["StarNumber"].ToString());
+                        p.QUANTITY = Int32.Parse(reader["Qty"].ToString());
+                        p.CATEID = Int32.Parse(reader["CateId"].ToString());
+                        p.CREATEDON = Convert.ToDateTime(reader["CreatedOn"].ToString(), culture);
+                        p.STATUS = Int32.Parse(reader["Status"].ToString());
+                        p.PRICE = float.Parse(reader["Price"].ToString());
+                        p.IMG = reader["Img"].ToString();
+                        list.Add(p);
+                    }
+                    reader.Close();
+                }
+
+                conn.Close();
+
+            }
+            return list.Count;
         }
         // All Review
         public List<Review> SelectReview()
@@ -246,20 +622,29 @@ namespace firstWeb.Models
                 {
                     while (reader.Read())
                     {
-                        list.Add(new Products()
+                        CultureInfo culture = new CultureInfo("en-US");
+                        DateTime day = Convert.ToDateTime("7/10/2002 12:10:15 PM", culture);
+                        _ = new Products();
+                        Products p = new Products();
+                        p.PROID = Int32.Parse(reader["ProductID"].ToString());
+                        p.NAME = reader["Name"].ToString();
+                        p.DESCRIPTION = reader["Description"].ToString();
+                        p.STAR = Int32.Parse(reader["StarNumber"].ToString());
+                        p.QUANTITY = Int32.Parse(reader["Quantity"].ToString());
+                        p.CATEID = Int32.Parse(reader["CateId"].ToString());
+                        p.CREATEDON = Convert.ToDateTime(reader["CreatedOn"].ToString(), culture);
+                        p.STATUS = Int32.Parse(reader["Status"].ToString());
+                        p.PRICE = float.Parse(reader["Price"].ToString());
+                        p.IMG = reader["Img"].ToString();
+                        if (reader["IsDeleted"].ToString() == "True")
                         {
-                            PROID = Int32.Parse(reader["ProID"].ToString()),
-                            NAME = reader["Name"].ToString(),
-                            DESCRIPTION = reader["Description"].ToString(),
-                            STAR = Int32.Parse(reader["Star"].ToString()),
-                            QUANTITY = Int32.Parse(reader["Quantity"].ToString()),
-                            CATEID = Int32.Parse(reader["CateId"].ToString()),
-                            CREATEDON = DateTime.Parse(reader["CreatedOn"].ToString()),
-                            UPDATEDON = DateTime.Parse(reader["UpdatedOn"].ToString()),
-                            STATUS = Int32.Parse(reader["Status"].ToString()),
-                            ISDELETED = Int32.Parse(reader["IsDeleted"].ToString()),
-                            PRICE = float.Parse(reader["Price"].ToString()),
-                        });
+                            p.ISDELETED = 1;
+                        }
+                        else
+                        {
+                            p.ISDELETED = 0;
+                        }
+                        list.Add(p);
                     }
                     reader.Close();
                 }
@@ -282,22 +667,35 @@ namespace firstWeb.Models
                 {
                     while (reader.Read())
                     {
-                        list.Add(new Users()
+                        CultureInfo culture = new CultureInfo("en-US");
+                        DateTime day = Convert.ToDateTime("7/10/2002 12:10:15 PM", culture);
+                        Users u = new Users();
+                        u.USERID = Int32.Parse(reader["UserID"].ToString());
+                        u.USERNAME = reader["Username"].ToString();
+                        u.PASSWORD = reader["Password"].ToString();
+                        u.ADDRESS = reader["Address"].ToString();
+                        u.EMAIL = reader["Email"].ToString();
+                        u.PHONE = reader["Phone"].ToString();
+                        u.FIRSTNAME = reader["Firstname"].ToString();
+                        u.LASTNAME = reader["Lastname"].ToString();
+                        u.REGISTRATIONDATE = Convert.ToDateTime(reader["Registrationdate"].ToString(), culture);
+                        if (reader["IsDeleted"].ToString() == "True")
                         {
-                            USERID = Int32.Parse(reader["UserID"].ToString()),
-                            USERNAME = reader["Username"].ToString(),
-                            PASSWORD = reader["Password"].ToString(),
-                            ADDRESS = reader["Address"].ToString(),
-                            EMAIL = reader["Email"].ToString(),
-                            PHONE = reader["Phone"].ToString(),
-                            FIRSTNAME = reader["Firstname"].ToString(),
-                            LASTNAME = reader["Lastname"].ToString(),
-                            DATEOFBIRTH = DateTime.Parse(reader["DateOfBirth"].ToString()),
-                            REGISTRATIONDATE = DateTime.Parse(reader["Registrationdate"].ToString()),
-                            UPDATEDON = DateTime.Parse(reader["UpdatedOn"].ToString()),
-                            ISDELETED = Int32.Parse(reader["IsDeleted"].ToString()),
-                            ROLEID = Int32.Parse(reader["IsAdmin"].ToString())
-                        });
+                            u.ISDELETED = 1;
+                        }
+                        else
+                        {
+                            u.ISDELETED = 0;
+                        }
+                        if (reader["IsAdmin"].ToString() == "True")
+                        {
+                            u.ROLEID = 1;
+                        }
+                        else
+                        {
+                            u.ROLEID = 0;
+                        }
+                        list.Add(u);
                     }
                     reader.Close();
                 }
@@ -307,7 +705,65 @@ namespace firstWeb.Models
             }
             return list;
         }
+        // Check Email exist
+        public int CheckEmail(string email)
+        {
+            int count = 0;
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string str = "select * from Users where Email = @email";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("email", email);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        count++;
+                    }
+                    reader.Close();
+                }
 
+                conn.Close();
+
+            }
+            return count;
+        }
+        // Get invoice
+        public Invoices GetInv()
+        {
+            Invoices i = new Invoices();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+
+                var str1 = "SELECT * from invoice order by PackID DESC limit 1";
+                MySqlCommand cmd1 = new MySqlCommand(str1, conn);
+                using (var reader = cmd1.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        CultureInfo culture = new CultureInfo("en-US");
+                        i = new Invoices();
+                        i.PACKID = Int32.Parse(reader["PackID"].ToString());
+                        if (reader["IsPaid"].ToString() == "True")
+                        {
+                            i.ISPAID = 1;
+                        }
+                        else
+                        {
+                            i.ISPAID = 0;
+                        }
+                        i.TOTALPRICE = float.Parse(reader["TotalPrice"].ToString());
+                        i.USERID = Int32.Parse(reader["UserID"].ToString());
+                        i.CREATEDON = Convert.ToDateTime(reader["CreatedOn"].ToString(), culture);
+                        i.PAIDON = new DateTime();
+                    }
+                    reader.Close();
+                }
+            }
+            return i;
+        }
         [HttpPost]
         /////// PRODUCT
         // Them product
@@ -316,14 +772,15 @@ namespace firstWeb.Models
             using (MySqlConnection conn = GetConnection())
             {
                 conn.Open();
-                var str = "insert into products ('Name', 'Description', 'price', 'quantity', " +
-                    "'cateid') values(@productname, @description, @price, @quantity, @cateid)";
+                var str = "insert into products (Name, Description, price, quantity, " +
+                    "cateid, img) values(@productname, @description, @price, @quantity, @cateid, @img)";
                 MySqlCommand cmd = new MySqlCommand(str, conn);
                 cmd.Parameters.AddWithValue("productname", p.NAME);
                 cmd.Parameters.AddWithValue("description", p.DESCRIPTION);
                 cmd.Parameters.AddWithValue("price", p.PRICE);
                 cmd.Parameters.AddWithValue("quantity", p.QUANTITY);
                 cmd.Parameters.AddWithValue("cateid", p.CATEID);
+                cmd.Parameters.AddWithValue("img", p.IMG);
 
                 return (cmd.ExecuteNonQuery());
 
@@ -350,18 +807,69 @@ namespace firstWeb.Models
                 return (cmd.ExecuteNonQuery());
             }
         }
+        // dlt product
+        public int DeleteProduct(int p)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "UPDATE products SET Isdeleted = true WHERE ProductID = @productid";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("productid", p);
+                return (cmd.ExecuteNonQuery());
+            }
+        }
+        // + 10 qty
+        public int Add10Product(int p)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "UPDATE products SET Quantity = Quantity + 10 WHERE ProductID = @productid";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("productid", p);
+                return (cmd.ExecuteNonQuery());
+            }
+        }
+        public int ReSaleProduct(int p)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "UPDATE products SET Isdeleted = false WHERE ProductID = @productid";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("productid", p);
+                return (cmd.ExecuteNonQuery());
+            }
+        }
         // Them product yeu thich
         public int InsertFavoriteProduct(Users u, Products p)
         {
             using (MySqlConnection conn = GetConnection())
             {
                 conn.Open();
-                var str = "INSERT INTO 	favoriteproduct	(UserID, ProductID) values (@userid, @productid)";
-                MySqlCommand cmd = new MySqlCommand(str, conn);
-                cmd.Parameters.AddWithValue("userid", u.USERID);
-                cmd.Parameters.AddWithValue("productid", p.PROID);
+                List<Products> list = this.GetFavoriteProducts(u.USERID);
+                int c = 0;
+                foreach(var item in list)
+                {
+                    if (item.PROID == p.PROID)
+                    {
+                        c = 1;
+                    }
+                }
+                if (c == 1)
+                {
+                    return 0;
+                }
+                else
+                {
+                    var str = "INSERT INTO 	favoriteproduct	(UserID, ProductID) values (@userid, @productid)";
+                    MySqlCommand cmd = new MySqlCommand(str, conn);
+                    cmd.Parameters.AddWithValue("userid", u.USERID);
+                    cmd.Parameters.AddWithValue("productid", p.PROID);
 
-                return (cmd.ExecuteNonQuery());
+                    return (cmd.ExecuteNonQuery());
+                }
             }
         }
         // Xoa product yeu thich
@@ -387,41 +895,25 @@ namespace firstWeb.Models
             using (MySqlConnection conn = GetConnection())
             {
                 conn.Open();
-                var str = "insert into products ('Username', 'Password', 'Address', 'Email', " +
-                    "'Phone', 'Firstname', 'Lastname') values(@username, @password, @address," +
-                    " @email, @phone, @first, @last)";
+                var str = "insert into users (Password, Email) values (@password, @email)";
                 MySqlCommand cmd = new MySqlCommand(str, conn);
-                cmd.Parameters.AddWithValue("username", u.USERNAME);
                 cmd.Parameters.AddWithValue("password", u.PASSWORD);
-                cmd.Parameters.AddWithValue("address", u.ADDRESS);
                 cmd.Parameters.AddWithValue("email", u.EMAIL);
-                cmd.Parameters.AddWithValue("phone", u.PHONE);
-                cmd.Parameters.AddWithValue("first", u.FIRSTNAME);
-                cmd.Parameters.AddWithValue("last", u.LASTNAME);
                 cmd.ExecuteNonQuery();
 
-                string str1 = "select * from Users where Username = @username";
+                string str1 = "select * from Users where Email = @email";
                 MySqlCommand cmd1 = new MySqlCommand(str1, conn);
-                cmd1.Parameters.AddWithValue("username", u.USERNAME);
+                cmd1.Parameters.AddWithValue("email", u.EMAIL);
                 using (var reader = cmd1.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        u1 = new Users(
-                            Int32.Parse(reader["UserID"].ToString()),
-                            reader["Username"].ToString(),
-                            reader["Password"].ToString(),
-                            reader["Address"].ToString(),
-                            reader["Email"].ToString(),
-                            reader["Phone"].ToString(),
-                            reader["Firstname"].ToString(),
-                            reader["Lastname"].ToString(),
-                            DateTime.Parse(reader["DateOfBirth"].ToString()),
-                            DateTime.Parse(reader["Registrationdate"].ToString()),
-                            DateTime.Parse(reader["UpdatedOn"].ToString()),
-                            Int32.Parse(reader["IsAdmin"].ToString()), 
-                            Int32.Parse(reader["IsDeleted"].ToString()), 0
-                        );
+                        CultureInfo culture = new CultureInfo("en-US");
+                        u1 = new Users();
+                        u1.USERID = Int32.Parse(reader["UserID"].ToString());
+                        u1.PASSWORD = reader["Password"].ToString();
+                        u1.EMAIL = reader["Email"].ToString();
+                        u1.REGISTRATIONDATE = Convert.ToDateTime(reader["Registrationdate"].ToString(), culture);
                     }
                     reader.Close();
                 }
@@ -436,9 +928,9 @@ namespace firstWeb.Models
             {
                 conn.Open();
 
-                string str = "select * from Users where Email = @username and Password = @pass";
+                string str = "select * from Users where Email = @email and Password = @pass";
                 MySqlCommand cmd = new MySqlCommand(str, conn);
-                cmd.Parameters.AddWithValue("username", u.EMAIL);
+                cmd.Parameters.AddWithValue("email", u.EMAIL);
                 cmd.Parameters.AddWithValue("pass", u.PASSWORD);
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -452,26 +944,117 @@ namespace firstWeb.Models
                         u1.USERNAME = reader["Username"].ToString();
                         u1.PASSWORD = reader["Password"].ToString();
                         u1.EMAIL = reader["Email"].ToString();
-                        
-                            /*,
-                            reader["Address"].ToString(),
-                            ,
-                            reader["Phone"].ToString(),
-                            reader["Firstname"].ToString(),
-                            reader["Lastname"].ToString(),
-                            day,
-                            day,
-                            day,
-                            Int32.Parse(reader["IsAdmin"].ToString()),
-                            Int32.Parse(reader["IsDeleted"].ToString()), 0
-                        );*/
+                        u1.ADDRESS = reader["Address"].ToString();
+                        u1.PHONE = reader["Phone"].ToString();
+                        u1.FIRSTNAME = reader["Firstname"].ToString();
+                        u1.LASTNAME = reader["Lastname"].ToString();
+                        if (reader["IsAdmin"].ToString() == "True")
+                        {
+                            u1.ROLEID = 1;
+                        }
+                        else
+                        {
+                            u1.ADDRESS = reader["IsAdmin"].ToString();
+                        }
+                        if (reader["IsDeleted"].ToString() == "True")
+                        {
+                            u1.ISDELETED = 1;
+                        }
+                        else
+                        {
+                            u1.ISDELETED = 0;
+                        }
+                        u1.REGISTRATIONDATE = Convert.ToDateTime(reader["Registrationdate"].ToString(), culture);
+                        if (reader["UpdatedOn"].ToString() == "") { }
+                        else { u1.UPDATEDON = Convert.ToDateTime(reader["UpdatedOn"].ToString(), culture); }
+                        if (reader["DateOfBirth"].ToString() == "") { }
+                        else { u1.DATEOFBIRTH = Convert.ToDateTime(reader["DateOfBirth"].ToString(), culture); }
                     }
                     reader.Close();
                 }
             }
             return u1;
         }
+        // Update user  
+        public int ChangePassword(Users u)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "UPDATE users SET Password = @pass" +
+                    " WHERE Email = @email";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("pass", u.PASSWORD);
+                cmd.Parameters.AddWithValue("email", u.EMAIL);
+                return (cmd.ExecuteNonQuery());
+            }
+        }
 
+        public int ChangeProfile(Users u)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "UPDATE users SET Password = @pass, Firstname = @first, Lastname = @last, Email = @email," +
+                    " Phone = @phone , Address = @address " +
+                    " WHERE Email = @email";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("pass", u.PASSWORD);
+                cmd.Parameters.AddWithValue("email", u.EMAIL);
+                cmd.Parameters.AddWithValue("first", u.FIRSTNAME);
+                cmd.Parameters.AddWithValue("last", u.LASTNAME);
+                cmd.Parameters.AddWithValue("phone", u.PHONE);
+                cmd.Parameters.AddWithValue("address", u.ADDRESS);
+                return (cmd.ExecuteNonQuery());
+            }
+        }
+        // dtl User
+        public int DeleteUser(int u)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "UPDATE users SET Isdeleted = true WHERE Userid = @uid";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("uid", u);
+                return (cmd.ExecuteNonQuery());
+            }
+        }
+        // Active User
+        public int ActiveUser(int u)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "UPDATE users SET Isdeleted = false WHERE Userid = @uid";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("uid", u);
+                return (cmd.ExecuteNonQuery());
+            }
+        }
+        // Active User
+        public int ToAdmin(int u)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "UPDATE users SET IsAdmin = true WHERE Userid = @uid";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("uid", u);
+                return (cmd.ExecuteNonQuery());
+            }
+        }
+        public int ToMem(int u)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "UPDATE users SET IsAdmin = false WHERE Userid = @uid";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("uid", u);
+                return (cmd.ExecuteNonQuery());
+            }
+        }
         ////// CATEGORY
         // Them category
         public int InsertCategory(Category c)
@@ -503,7 +1086,7 @@ namespace firstWeb.Models
 
         ///// INVOICE
         // Tao invoice
-        public Invoices createinvoice(Users u)
+        public Invoices Createinvoice(Users u)
         {
             Invoices i = new Invoices();
             using (MySqlConnection conn = GetConnection())
@@ -520,14 +1103,21 @@ namespace firstWeb.Models
                 {
                     while (reader.Read())
                     {
-                        i = new Invoices(
-                            Int32.Parse(reader["PackID"].ToString()),
-                            Int32.Parse(reader["IsPaid"].ToString()),
-                            DateTime.Parse(reader["CreatedOn"].ToString()),
-                            DateTime.Parse(reader["PaidOn"].ToString()),
-                            float.Parse(reader["TotalPrice"].ToString()),
-                            Int32.Parse(reader["UserID"].ToString())
-                        );
+                        CultureInfo culture = new CultureInfo("en-US");
+                        i = new Invoices();
+                        i.PACKID = Int32.Parse(reader["PackID"].ToString());
+                        if (reader["IsPaid"].ToString() == "True")
+                        {
+                            i.ISPAID = 1;
+                        }
+                        else
+                        {
+                            i.ISPAID = 0;
+                        }
+                        i.TOTALPRICE = float.Parse(reader["TotalPrice"].ToString());
+                        i.USERID = Int32.Parse(reader["UserID"].ToString());
+                        i.CREATEDON = Convert.ToDateTime(reader["CreatedOn"].ToString(), culture);
+                        i.PAIDON = new DateTime();
                     }
                     reader.Close();
                 }
@@ -539,13 +1129,32 @@ namespace firstWeb.Models
         {
             using (MySqlConnection conn = GetConnection())
             {
-                conn.Open();
-                var str = "insert into invoicedetail (ProId, PackID, Qty) values (@proid, @packid, @quantity)";
-                MySqlCommand cmd = new MySqlCommand(str, conn);
-                cmd.Parameters.AddWithValue("proid", p.PROID);
-                cmd.Parameters.AddWithValue("packid", i.PACKID);
-                cmd.Parameters.AddWithValue("quantity", quantity);
-                return cmd.ExecuteNonQuery();
+                int a = this.checkhang(i, p.PROID);
+                if (a > 0)
+                {
+                    using (MySqlConnection conn1 = GetConnection())
+                    {
+                        conn.Open();
+                        var str = "UPDATE invoicedetail SET Qty = Qty + @quantity WHERE ProId = @proid and PackID = @packid";
+                        MySqlCommand cmd = new MySqlCommand(str, conn);
+                        cmd.Parameters.AddWithValue("proid", p.PROID);
+                        cmd.Parameters.AddWithValue("quantity", quantity);
+                        cmd.Parameters.AddWithValue("packid", i.PACKID);
+                        cmd.ExecuteNonQuery();
+
+                        return 1;
+                    }
+                }
+                else
+                {
+                    conn.Open();
+                    var str = "insert into invoicedetail (ProId, PackID, Qty) values (@proid, @packid, @quantity)";
+                    MySqlCommand cmd = new MySqlCommand(str, conn);
+                    cmd.Parameters.AddWithValue("proid", p.PROID);
+                    cmd.Parameters.AddWithValue("packid", i.PACKID);
+                    cmd.Parameters.AddWithValue("quantity", quantity);
+                    return cmd.ExecuteNonQuery();
+                }
             }
         }
         //Sua san pham trong invoice
@@ -558,6 +1167,18 @@ namespace firstWeb.Models
                 MySqlCommand cmd = new MySqlCommand(str, conn);
                 cmd.Parameters.AddWithValue("proid", i.PROID);
                 cmd.Parameters.AddWithValue("quantity", i.QUANTITY);
+                cmd.Parameters.AddWithValue("packid", i.PACKID);
+                return cmd.ExecuteNonQuery();
+            }
+        }
+        // Thanh toan
+        public int Pay(Invoices i)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "UPDATE invoice SET ispaid = true WHERE PackID = @packid";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
                 cmd.Parameters.AddWithValue("packid", i.PACKID);
                 return cmd.ExecuteNonQuery();
             }

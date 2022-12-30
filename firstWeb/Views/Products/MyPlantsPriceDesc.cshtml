@@ -109,6 +109,10 @@
                     cursor: pointer;
                 }
 
+                    .navbar-left a:nth-child(3) {
+                        background-color: #000000;
+                        color: #fff;
+                    }
 
             .navbar-button {
                 margin-left: 10px;
@@ -278,9 +282,9 @@
                     <div class="navbar-left">
                         <span>Sorted by</span>
                         <div class="navbar-button">
-                            <a href="/Products/ForSmallSizeNewest" style="color: black">Newest</a>
-                            <a href="/Products/ForSmallSizePriceAsc" style="color: black">Price go up</a>
-                            <a href="/Products/ForSmallSizePriceDesc" style="color: black">Price go down</a>
+                            <a href="/Products/MyPlantsNewest" style="color: black">Newest</a>
+                            <a href="/Products/MyPlantsPriceAsc" style="color: black">Price go up</a>
+                            <a href="/Products/MyPlantsPriceDesc">Price go down</a>
                         </div>
                         @*<select class="navbar-select" name="">
                                 <option value="" selected>Giá</option>
@@ -303,7 +307,7 @@
                                         <div class="product-price d-flex justify-content-between">
                                             <h3>₫ @item.PRICE</h3>
                                             <a href="/Products/AddFavor?p=@item.PROID">
-                                                <img src="/heart.png" alt="" />
+                                                <img src="/doki.png" alt="" />
                                             </a>
                                         </div>
                                         <div class="product-status d-flex justify-content-between">

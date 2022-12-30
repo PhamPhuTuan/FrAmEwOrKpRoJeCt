@@ -7,6 +7,7 @@ namespace FrameworkProject.Models
         private int ProID;
         private string Name;
         private string Description;
+        private string Img;
         private int Star;
         private int Quantity;
         private int CateId;
@@ -25,6 +26,11 @@ namespace FrameworkProject.Models
         {
             get { return Name; }
             set { Name = value; }
+        }
+        public string IMG
+        {
+            get { return Img; }
+            set { Img = value; }
         }
         public string DESCRIPTION
         {
